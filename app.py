@@ -569,14 +569,7 @@ def after_request(response):
     return response
 
 if __name__ == '__main__':
-    # Certificar que as pastas existem
-    if not os.path.exists('templates'):
-        os.makedirs('templates')
-    if not os.path.exists('static'):
-        os.makedirs('static')
-    
-    # Para desenvolvimento
-    app.run(debug=True, host='0.0.0.0', port=5000)
-    
-    # Para produção, use:
-    # gunicorn -w 4 -b 0.0.0.0:5000 app:app
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    debug_mode = os.environ.get('FLASK_ENV') != 'production'
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)
