@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}Histórico - Gabriel{% endblock %}
+
+{% block content %}
+<div class="hero-mobile">
+    <h1 class="hero-title-mobile">📈 Seu Histórico</h1>
+    <p class="hero-subtitle-mobile">Acompanhe toda sua evolução, Gabriel!</p>
+</div>
+
+{% if history %}
+<!-- Filter Buttons -->
+<div class="mb-4">
+    <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-outline-mobile btn-sm filter-btn active" data-filter="all">
+            Todos
+        </button>
+        <button class="btn btn-outline-mobile btn-sm filter-btn" data-filter="week">
+            Esta Semana
+        </button>
+        <button class="btn btn-outline-mobile btn-sm filter-btn" data-filter="month">
+            Este Mês
+        </button>
+    </div>
+</div>
+
+<!-- History Timeline -->
+<div class="history-timeline">
+    {% for session in history %}
+        {% if loop.index0 < 20 %}
+        <div class="timeline-item mobile-card touchable" data-date="{{ session.date }}">
+            <!-- Timeline connector -->
+            {% if not loop.first %}
+            <div class="timeline-connector"></div>
+            {% endif %}
+            
+            <div class="card-body-mobile">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h6 class="mb-1">{{ session.workout_name }}</h6>
+                        <small class="text-muted">
+                            <i class="bi bi-calendar me-1"></i>{{ session.date }}
+                        </small>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge-mobile">{{ session.completion_rate|default(0)|round }}%</span>
+                    </div>
+                </div>
+                
+                <p class="text-muted mb-3">
+                    <i class="bi bi-bullseye me-1" style="color: var(--green-accent);"></i>
+                    {{ session.muscle_group }}
+                </p>
+                
+                <!-- Quick Stats Grid -->
+                <div class="row g-2 text-center">
+                    <div class="col-3">
+                        <div class="p-2" style="background: rgba(255, 107, 53, 0.1); border-radius: 8px;">
+                            <div class="fw-bold" style="color: var(--orange-primary);">{{ session.exercises_completed|default(0) }}</div>
+                            <small class="text-muted">Exercícios</small>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="p-2" style="background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                            <div class="fw-bold" style="color: var(--green-accent);">{{ session.duration_minutes|default(0) }}</div>
+                            <small class="text-muted">Minutos</small>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="p-2" style="background: rgba(255, 107, 53, 0.1); border-radius: 8px;">
+                            <div class="fw-bold" style="color: var(--orange-primary);">{{ session.completion_rate|default(0)|round }}%</div>
+                            <small class="text-muted">Conclusão</small>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="p-2" style="background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                            <div class="fw-bold" style="color: var(--green-accent);">{{ (session.duration_minutes|default(0)) * 8 }}</div>
+                            <small class="text-muted">Kcal</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="progress-mobile mt-3">
+                    <div class="progress-bar history-progress" data-completion="{{ session.completion_rate|default(0) }}" style="width: 0%;"></div>
+                </div>
+                
+                <!-- Performance Badge -->
+                <div class="mt-3 text-center">
+                    {% set rate = session.completion_rate|default(0) %}
+                    {% if rate >= 90 %}
+                    <span class="badge" style="background: var(--green-accent); color: white;">🏆 Excelente</span>
+                    {% elif rate >= 75 %}
+                    <span class="badge" style="background: var(--orange-primary); color: white;">💪 Muito Bom</span>
+                    {% elif rate >= 50 %}
+                    <span class="badge" style="background: #ffc107; color: black;">👍 Bom</span>
+                    {% else %}
+                    <span class="badge" style="background: #6c757d; color: white;">📈 Em Progresso</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<!-- Load More Button -->
+{% if history|length > 20 %}
+<div class="text-center mt-4">
+    <button class="btn btn-outline-mobile btn-mobile touchable" onclick="loadMoreHistory()">
+        <i class="bi bi-arrow-down me-2"></i> Ver Mais Treinos
+    </button>
+</div>
+{% endif %}
+
+{% else %}
+<!-- Empty State -->
+<div class="mobile-card text-center">
+    <div class="card-body-mobile py-5">
+        <i class="bi bi-journal-x" style="font-size: 4rem; color: var(--text-muted); margin-bottom: 20px;"></i>
+        <h4>📭 Nenhum treino realizado ainda</h4>
+        <p class="text-muted mb-4">Bora começar sua jornada, Gabriel!</p>
+        <a href="{{ url_for('treinos') }}" class="btn btn-primary-mobile btn-mobile touchable">
+            <i class="bi bi-play-fill me-2"></i> Fazer Primeiro Treino
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<!-- Quick Actions -->
+<div class="row g-3 mt-4">
+    <div class="col-6">
+        <a href="{{ url_for('estatisticas') }}" class="text-decoration-none">
+            <div class="mobile-card touchable text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-bar-chart-fill" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                    <h6 class="mt-2 mb-0">Estatísticas</h6>
+                    <small class="text-muted">Ver dados completos</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-6">
+        <a href="{{ url_for('treinos') }}" class="text-decoration-none">
+            <div class="mobile-card touchable text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-play-circle-fill" style="font-size: 1.8rem; color: var(--green-accent);"></i>
+                    <h6 class="mt-2 mb-0">Novo Treino</h6>
+                    <small class="text-muted">Continuar evoluindo</small>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<style>
+/* Timeline Styles */
+.history-timeline {
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 20px;
+    width: 10px;
+    height: 10px;
+    background: var(--orange-primary);
+    border-radius: 50%;
+    border: 3px solid var(--bg-dark);
+    z-index: 2;
+}
+
+.timeline-connector {
+    position: absolute;
+    left: -11px;
+    top: -20px;
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--orange-primary), var(--green-accent));
+    z-index: 1;
+}
+
+/* Filter Button Styles */
+.filter-btn {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    background: var(--orange-primary) !important;
+    color: white !important;
+    border-color: var(--orange-primary) !important;
+}
+
+/* Animation for progress bars */
+.history-progress {
+    transition: width 1s ease-in-out;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate progress bars
+    setTimeout(() => {
+        const progressBars = document.querySelectorAll('.history-progress');
+        progressBars.forEach(function(bar) {
+            const completion = bar.getAttribute('data-completion');
+            bar.style.width = completion + '%';
+        });
+    }, 500);
+    
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Update active button
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.getAttribute('data-filter');
+            filterHistory(filter);
+        });
+    });
+    
+    // Add touch feedback
+    timelineItems.forEach(item => {
+        item.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+        
+        item.addEventListener('touchend', function() {
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
+});
+
+function filterHistory(filter) {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const now = new Date();
+    
+    timelineItems.forEach(item => {
+        const dateStr = item.getAttribute('data-date');
+        const itemDate = new Date(dateStr);
+        let show = true;
+        
+        if (filter === 'week') {
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            show = itemDate >= weekAgo;
+        } else if (filter === 'month') {
+            const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+            show = itemDate >= monthAgo;
+        }
+        
+        if (show) {
+            item.style.display = 'block';
+            item.style.animation = 'fadeIn 0.3s ease-in';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+function loadMoreHistory() {
+    // In a real implementation, this would load more history via AJAX
+    alert('Funcionalidade de carregar mais histórico seria implementada aqui!');
+}
+
+// Add CSS animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

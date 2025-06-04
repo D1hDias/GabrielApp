@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Estatísticas - Gabriel{% endblock %}
+
+{% block content %}
+<div class="hero-mobile">
+    <h1 class="hero-title-mobile">📊 Suas Estatísticas</h1>
+    <p class="hero-subtitle-mobile">Veja todo seu progresso, campeão!</p>
+</div>
+
+{% if stats %}
+<!-- Main Stats Grid -->
+<div class="row g-3 mb-4">
+    <div class="col-6">
+        <div class="stats-card-mobile">
+            <i class="bi bi-trophy stats-icon-mobile"></i>
+            <h4 class="fw-bold mb-1">{{ stats.total_treinos }}</h4>
+            <small>Treinos Realizados</small>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="stats-card-mobile">
+            <i class="bi bi-lightning-fill stats-icon-mobile"></i>
+            <h4 class="fw-bold mb-1">{{ stats.total_exercicios }}</h4>
+            <small>Exercícios Feitos</small>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="stats-card-mobile">
+            <i class="bi bi-clock stats-icon-mobile"></i>
+            <h4 class="fw-bold mb-1">{{ stats.tempo_total }}min</h4>
+            <small>Tempo Total</small>
+            {% set horas = (stats.tempo_total // 60)|int %}
+            {% set minutos = (stats.tempo_total % 60)|int %}
+            <div class="mt-1">
+                <span class="badge-mobile" style="font-size: 0.7rem;">{{ horas }}h {{ minutos }}min</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="stats-card-mobile">
+            <i class="bi bi-fire stats-icon-mobile"></i>
+            <h4 class="fw-bold mb-1">~{{ stats.calorias }}</h4>
+            <small>Calorias Queimadas</small>
+        </div>
+    </div>
+</div>
+
+<!-- Detailed Stats Cards -->
+<div class="mb-4">
+    <div class="mobile-card">
+        <div class="card-header-mobile">
+            🎯 Taxa de Conclusão Média
+        </div>
+        <div class="card-body-mobile text-center">
+            {% set taxa_rounded = stats.taxa_media|round %}
+            <div style="font-size: 3.5rem; color: var(--green-accent); font-weight: bold; margin: 20px 0;">
+                {{ taxa_rounded }}%
+            </div>
+            <div class="progress-mobile mb-3">
+                <div class="progress-bar" id="taxa-progress" data-width="{{ stats.taxa_media }}" style="width: 0%;"></div>
+            </div>
+            <p class="text-muted mb-0">
+                {% if taxa_rounded >= 90 %}
+                🏆 Excelente! Você é muito dedicado!
+                {% elif taxa_rounded >= 75 %}
+                💪 Muito bom! Continue assim!
+                {% elif taxa_rounded >= 60 %}
+                👍 Bom progresso! Pode melhorar!
+                {% else %}
+                💪 Vamos focar mais nos treinos!
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4">
+    <div class="mobile-card">
+        <div class="card-header-mobile">
+            ⏱️ Tempo Médio por Treino
+        </div>
+        <div class="card-body-mobile text-center">
+            {% set tempo_medio = (stats.tempo_total / stats.total_treinos)|round %}
+            <div style="font-size: 3.5rem; color: var(--orange-primary); font-weight: bold; margin: 20px 0;">
+                {{ tempo_medio }}min
+            </div>
+            <p class="text-muted mb-0">
+                {% if tempo_medio >= 60 %}
+                🔥 Treinos longos e intensos!
+                {% elif tempo_medio >= 45 %}
+                💪 Tempo ideal para bons resultados!
+                {% elif tempo_medio >= 30 %}
+                ⚡ Treinos rápidos e eficientes!
+                {% else %}
+                🏃 Treinos express!
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Weekly Progress Chart -->
+<div class="mb-4">
+    <div class="mobile-card">
+        <div class="card-header-mobile">
+            📈 Progresso Semanal
+        </div>
+        <div class="card-body-mobile">
+            <div class="row g-2">
+                <div class="col text-center">
+                    <div class="mb-2">
+                        <div class="rounded-circle mx-auto" 
+                             style="width: 40px; height: 40px; background: var(--green-accent); display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-check text-white"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Dom</small>
+                </div>
+                <div class="col text-center">
+                    <div class="mb-2">
+                        <div class="rounded-circle mx-auto" 
+                             style="width: 40px; height: 40px; background: var(--green-accent); display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-check text-white"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Seg</small>
+                </div>
+                <div class="col text-center">
+                    <div class="mb-2">
+                        <div class="rounded-circle mx-auto" 
+                             style="width: 40px; height: 40px; background: var(--green-accent); display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-check text-white"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Ter</small>
+                </div>
+                <div class="col text-center">
+                    <div class="mb-2">
+                        <div class="rounded-circle mx-auto" 
+                             style="width: 40px; height: 40px; background: var(--green-accent); display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-check text-white"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Qua</small>
+                </div>
+                <div class="col text-center">
+                    <div class="mb-2">
+                        <div class="rounded-circle mx-auto" 
+                             style="width: 40px; height: 40px; background: var(--green-accent); display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-check text-white"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Qui</small>
+                </div>
+                <div class="col text-center">
+                    <div class="mb-2">
+                        <div class="rounded-circle mx-auto" 
+                             style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-circle text-muted"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Sex</small>
+                </div>
+                <div class="col text-center">
+                    <div class="mb-2">
+                        <div class="rounded-circle mx-auto" 
+                             style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-circle text-muted"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Sáb</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Achievement Cards -->
+<div class="mb-4">
+    <h5 class="text-center mb-3" style="color: var(--text-light);">🏆 Conquistas</h5>
+    
+    <div class="row g-3">
+        <div class="col-6">
+            <div class="mobile-card text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-fire" style="font-size: 2rem; color: var(--orange-primary);"></i>
+                    <h6 class="mt-2 mb-1">Sequência</h6>
+                    <p class="mb-0"><strong>5 dias</strong></p>
+                    <small class="text-muted">Maior sequência</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-6">
+            <div class="mobile-card text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-stopwatch" style="font-size: 2rem; color: var(--green-accent);"></i>
+                    <h6 class="mt-2 mb-1">Recorde</h6>
+                    <p class="mb-0"><strong>75 min</strong></p>
+                    <small class="text-muted">Treino mais longo</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-6">
+            <div class="mobile-card text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-calendar-week" style="font-size: 2rem; color: var(--orange-primary);"></i>
+                    <h6 class="mt-2 mb-1">Frequência</h6>
+                    <p class="mb-0"><strong>{{ (stats.total_treinos / 4)|round(1) }}</strong></p>
+                    <small class="text-muted">Treinos por semana</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-6">
+            <div class="mobile-card text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-graph-up" style="font-size: 2rem; color: var(--green-accent);"></i>
+                    <h6 class="mt-2 mb-1">Evolução</h6>
+                    <p class="mb-0"><strong>+15%</strong></p>
+                    <small class="text-muted">Melhoria geral</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Motivational Section -->
+<div class="mobile-card mb-4" style="background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%);">
+    <div class="card-body-mobile text-center">
+        <h4 style="color: var(--green-accent); margin-bottom: 16px;">🏆 Parabéns, Gabriel!</h4>
+        <p class="mb-3">Você já queimou <strong style="color: var(--orange-primary);">{{ stats.calorias }} calorias</strong> em {{ stats.total_treinos }} treinos!</p>
+        <p class="mb-4">Continue assim e você vai conquistar todos seus objetivos! 💪</p>
+        <a href="/treinos" class="btn btn-primary-mobile btn-mobile touchable">
+            <i class="bi bi-play-fill me-2"></i> Fazer Mais Um Treino
+        </a>
+    </div>
+</div>
+
+{% else %}
+<!-- No Data State -->
+<div class="mobile-card text-center">
+    <div class="card-body-mobile py-5">
+        <i class="bi bi-graph-up" style="font-size: 4rem; color: var(--text-muted); margin-bottom: 20px;"></i>
+        <h4>📊 Ainda não há estatísticas</h4>
+        <p class="text-muted mb-4">Faça seu primeiro treino para ver suas stats incríveis!</p>
+        <a href="/treinos" class="btn btn-primary-mobile btn-mobile touchable">
+            <i class="bi bi-play-fill me-2"></i> Começar Agora
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<!-- Quick Actions -->
+<div class="row g-3 mt-3">
+    <div class="col-6">
+        <a href="/historico" class="text-decoration-none">
+            <div class="mobile-card touchable text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-clock-history" style="font-size: 1.8rem; color: var(--green-accent);"></i>
+                    <h6 class="mt-2 mb-0">Ver Histórico</h6>
+                    <small class="text-muted">Treinos anteriores</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-6">
+        <a href="/grupos" class="text-decoration-none">
+            <div class="mobile-card touchable text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-diagram-3" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                    <h6 class="mt-2 mb-0">Ver Grupos</h6>
+                    <small class="text-muted">Por músculo</small>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate progress bar
+    const taxaProgressBar = document.getElementById('taxa-progress');
+    if (taxaProgressBar) {
+        const width = taxaProgressBar.getAttribute('data-width');
+        setTimeout(() => {
+            taxaProgressBar.style.width = width + '%';
+        }, 500);
+    }
+    
+    // Add counter animation to stats
+    const statsNumbers = document.querySelectorAll('.stats-card-mobile h4');
+    statsNumbers.forEach(stat => {
+        const finalValue = parseInt(stat.textContent.replace(/[^\d]/g, ''));
+        if (!isNaN(finalValue)) {
+            animateCounter(stat, finalValue);
+        }
+    });
+});
+
+function animateCounter(element, finalValue) {
+    let currentValue = 0;
+    const increment = finalValue / 30; // 30 frames
+    const timer = setInterval(() => {
+        currentValue += increment;
+        if (currentValue >= finalValue) {
+            currentValue = finalValue;
+            clearInterval(timer);
+        }
+        
+        // Preserve original text format
+        const originalText = element.textContent;
+        if (originalText.includes('~')) {
+            element.textContent = '~' + Math.floor(currentValue);
+        } else {
+            element.textContent = Math.floor(currentValue) + (originalText.includes('min') ? 'min' : '');
+        }
+    }, 50);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Treinos - Gabriel Fitness{% endblock %}
+
+{% block content %}
+<div class="hero-mobile">
+    <h1 class="hero-title-mobile">🏃‍♂️ Seus Treinos</h1>
+    <p class="hero-subtitle-mobile">Escolha seu treino e bora quebrar tudo!</p>
+</div>
+
+{% for mes_key, mes_data in workouts.items() %}
+<div id="{{ mes_key }}" class="mb-4">
+    <div class="d-flex align-items-center justify-content-center mb-3">
+        <h4 class="text-center" style="color: var(--orange-primary);">
+            📅 {{ mes_key.replace('mes_', 'Mês ') }} - {{ mes_data.nome }}
+        </h4>
+    </div>
+    
+    <div class="mobile-card mb-3">
+        <div class="card-body-mobile">
+            <h6 style="color: var(--green-accent);">🎯 Objetivo:</h6>
+            <p class="mb-2">{{ mes_data.objetivo }}</p>
+            <span class="badge-mobile">
+                Semanas {{ mes_data.semanas[0] }}-{{ mes_data.semanas[-1] }}
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        {% for dia_key, treino in mes_data.treinos.items() %}
+        <div class="col-12">
+            <div class="mobile-card">
+                <div class="card-header-mobile">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>{{ dia_key.title() }}</span>
+                        <span class="badge bg-light text-dark">{{ treino.exercicios|length }} exercícios</span>
+                    </div>
+                </div>
+                <div class="card-body-mobile">
+                    <h6 class="mb-2">{{ treino.nome }}</h6>
+                    <p class="mb-3">
+                        <i class="bi bi-bullseye" style="color: var(--green-accent);"></i>
+                        <strong>Foco:</strong> {{ treino.grupo_muscular }}
+                    </p>
+                    
+                    <div class="mb-3">
+                        <h6 style="color: var(--orange-primary); font-size: 0.9rem;">💪 Exercícios Preview:</h6>
+                        {% for exercicio in treino.exercicios[:2] %}
+                        <div class="exercise-card-mobile">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span style="font-size: 0.9rem;">{{ exercicio.nome }}</span>
+                                    {% if exercicio.dica %}
+                                    <br><small class="text-muted">💡 {{ exercicio.dica[:50] }}{% if exercicio.dica|length > 50 %}...{% endif %}</small>
+                                    {% endif %}
+                                </div>
+                                <small class="badge-mobile" style="font-size: 0.7rem;">{{ exercicio.series }}x{{ exercicio.reps }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% if treino.exercicios|length > 2 %}
+                        <div class="text-center mt-2">
+                            <small class="text-muted">+ {{ treino.exercicios|length - 2 }} exercícios adicionais</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('treino_detalhes', mes=mes_key, dia=dia_key) }}" 
+                           class="btn btn-outline-mobile btn-mobile touchable">
+                            <i class="bi bi-eye me-2"></i> Ver Todos os Exercícios
+                        </a>
+                        <a href="{{ url_for('executar_treino', mes=mes_key, dia=dia_key) }}" 
+                           class="btn btn-primary-mobile btn-mobile touchable">
+                            <i class="bi bi-play-fill me-2"></i> Iniciar Treino Agora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Separador visual entre meses -->
+{% if not loop.last %}
+<div class="text-center my-4">
+    <div style="height: 2px; background: linear-gradient(90deg, transparent, var(--orange-primary), transparent); margin: 20px 0;"></div>
+</div>
+{% endif %}
+
+{% endfor %}
+
+<!-- Floating Action Button -->
+<div class="position-fixed" style="bottom: 100px; right: 20px; z-index: 999;">
+    <button class="btn btn-primary-mobile rounded-circle" style="width: 56px; height: 56px;" 
+            onclick="scrollToTop()" id="scrollTopBtn">
+        <i class="bi bi-chevron-up" style="font-size: 1.5rem;"></i>
+    </button>
+</div>
+
+<script>
+// Scroll to top functionality
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+// Show/hide scroll button
+window.addEventListener('scroll', function() {
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    if (window.pageYOffset > 300) {
+        scrollBtn.style.opacity = '1';
+        scrollBtn.style.pointerEvents = 'auto';
+    } else {
+        scrollBtn.style.opacity = '0';
+        scrollBtn.style.pointerEvents = 'none';
+    }
+});
+
+// Initialize scroll button state
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    scrollBtn.style.opacity = '0';
+    scrollBtn.style.transition = 'opacity 0.3s ease';
+    scrollBtn.style.pointerEvents = 'none';
+});
+</script>
+{% endblock %}

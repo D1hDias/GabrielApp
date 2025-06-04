@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="theme-color" content="#ff6b35">
+    <title>{% block title %}Sistema de Treinos - Gabriel{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0f0f0f;
+            --bg-card: #1e1e1e;
+            --bg-card-hover: #2a2a2a;
+            --orange-primary: #ff6b35;
+            --orange-hover: #ff8c42;
+            --green-accent: #4ecdc4;
+            --text-light: #ffffff;
+            --text-secondary: #e8e8e8;
+            --text-muted: #b8b8b8;
+            --border-color: #333333;
+            --shadow-color: rgba(0,0,0,0.6);
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        html {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a1a 100%);
+            color: var(--text-light);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            min-height: 100vh;
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Mobile Navigation */
+        .mobile-navbar {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-bottom: 2px solid var(--orange-primary);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            box-shadow: 0 2px 20px var(--shadow-color);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: var(--orange-primary) !important;
+            text-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-top: 2px solid var(--orange-primary);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 8px 0;
+            box-shadow: 0 -4px 20px var(--shadow-color);
+        }
+
+        .bottom-nav .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .bottom-nav .nav-link {
+            color: var(--text-muted) !important;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 8px 4px !important;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            margin: 0 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 60px;
+            justify-content: center;
+        }
+
+        .bottom-nav .nav-link i {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .bottom-nav .nav-link:hover,
+        .bottom-nav .nav-link.active {
+            color: var(--orange-primary) !important;
+            background: rgba(255, 107, 53, 0.15) !important;
+            transform: translateY(-2px);
+        }
+
+        .bottom-nav .nav-link.active i {
+            transform: scale(1.1);
+        }
+
+        /* Content spacing for bottom nav */
+        .main-content {
+            padding-bottom: 90px;
+            min-height: calc(100vh - 90px);
+        }
+
+        /* Mobile Cards */
+        .mobile-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #242424 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .mobile-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 12px var(--shadow-color);
+        }
+
+        .mobile-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.2);
+            border-color: rgba(255, 107, 53, 0.5);
+        }
+
+        .card-header-mobile {
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 16px;
+            border: none;
+            text-align: center;
+        }
+
+        .card-body-mobile {
+            padding: 20px;
+            color: var(--text-light);
+        }
+
+        /* Mobile Buttons */
+        .btn-mobile {
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary-mobile {
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-primary-mobile:active {
+            transform: scale(0.96);
+        }
+
+        .btn-primary-mobile:hover {
+            background: linear-gradient(135deg, var(--orange-hover) 0%, #ff9a5a 100%);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-success-mobile {
+            background: linear-gradient(135deg, var(--green-accent) 0%, #5dd3c8 100%);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .btn-outline-mobile {
+            border: 2px solid var(--orange-primary);
+            color: var(--orange-primary) !important;
+            background: rgba(255, 107, 53, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline-mobile:hover {
+            background: var(--orange-primary) !important;
+            color: white !important;
+        }
+
+        /* Hero Section Mobile */
+        .hero-mobile {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(78, 205, 196, 0.15) 100%);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            padding: 24px 16px;
+            margin: 16px 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .hero-title-mobile {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--green-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle-mobile {
+            font-size: 1.1rem;
+            color: var(--text-secondary) !important;
+            margin-bottom: 20px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Exercise Cards Mobile */
+        .exercise-card-mobile {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #2a2a2a 100%);
+            border-left: 4px solid var(--orange-primary);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .exercise-card-mobile:active {
+            transform: scale(0.98);
+        }
+
+        .exercise-card-mobile:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+            background: linear-gradient(135deg, var(--bg-card-hover) 0%, #353535 100%);
+        }
+
+        .exercise-card-mobile h6 {
+            color: var(--text-light) !important;
+            font-weight: 600 !important;
+        }
+
+        .exercise-card-mobile small {
+            color: var(--text-secondary) !important;
+        }
+
+        .exercise-card-mobile .badge {
+            background: var(--orange-primary) !important;
+            color: white !important;
+            font-weight: 600;
+        }
+
+        /* Progress Bars Mobile */
+        .progress-mobile {
+            background-color: rgba(255, 107, 53, 0.2);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-mobile .progress-bar {
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Form Elements Mobile */
+        .form-control-mobile {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            color: var(--text-light);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            min-height: 48px;
+        }
+
+        .form-control-mobile:focus {
+            background-color: var(--bg-card-hover);
+            border-color: var(--orange-primary);
+            color: var(--text-light);
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+            outline: none;
+        }
+
+        .form-label-mobile {
+            color: var(--text-light) !important;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        /* Stats Cards Mobile */
+        .stats-card-mobile {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(78, 205, 196, 0.05) 100%);
+            border: 1px solid rgba(78, 205, 196, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .stats-icon-mobile {
+            font-size: 2rem;
+            color: var(--orange-primary);
+            margin-bottom: 8px;
+        }
+
+        /* Responsive Typography */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-light) !important;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        h1 { font-size: 1.8rem; }
+        h2 { font-size: 1.6rem; }
+        h3 { font-size: 1.4rem; }
+        h4 { font-size: 1.2rem; }
+        h5 { font-size: 1.1rem; }
+        h6 { font-size: 1rem; }
+
+        p {
+            color: var(--text-secondary) !important;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        small {
+            color: var(--text-muted) !important;
+            font-size: 0.8rem;
+        }
+
+        /* Badge Mobile */
+        .badge-mobile {
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            color: white !important;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            border: 3px solid rgba(255, 107, 53, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid var(--orange-primary);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Touch improvements */
+        .touchable {
+            cursor: pointer;
+            -webkit-tap-highlight-color: rgba(255, 107, 53, 0.2);
+        }
+
+        .touchable:active {
+            opacity: 0.8;
+        }
+
+        /* Container adjustments */
+        .container-mobile {
+            padding-left: 12px;
+            padding-right: 12px;
+            max-width: 100%;
+        }
+
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--orange-primary);
+            border-radius: 2px;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Mobile Top Navigation -->
+    <nav class="mobile-navbar">
+        <div class="container-mobile">
+            <div class="d-flex justify-content-center align-items-center">
+                <a class="navbar-brand" href="{{ url_for('home') }}">
+                    🏋️ Gabriel
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container-mobile main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="d-flex">
+            <div class="nav-item">
+                <a class="nav-link touchable" href="{{ url_for('home') }}">
+                    <i class="bi bi-house-fill"></i>
+                    <span>Início</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link touchable" href="{{ url_for('treinos') }}">
+                    <i class="bi bi-calendar-week"></i>
+                    <span>Treinos</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link touchable" href="{{ url_for('grupos') }}">
+                    <i class="bi bi-diagram-3"></i>
+                    <span>Grupos</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link touchable" href="{{ url_for('historico') }}">
+                    <i class="bi bi-graph-up"></i>
+                    <span>Histórico</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link touchable" href="{{ url_for('estatisticas') }}">
+                    <i class="bi bi-bar-chart-fill"></i>
+                    <span>Stats</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Mobile optimizations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active nav item
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.bottom-nav .nav-link');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Haptic feedback simulation
+            function vibrateDevice(duration = 10) {
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(duration);
+                }
+            }
+
+            // Add vibration to buttons
+            document.querySelectorAll('.btn-mobile, .touchable').forEach(btn => {
+                btn.addEventListener('touchstart', () => vibrateDevice(10));
+            });
+
+            // Prevent zoom on input focus (iOS)
+            document.querySelectorAll('input, select, textarea').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.fontSize = '16px';
+                });
+            });
+
+            // Touch feedback
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.closest('.touchable')) {
+                    e.target.closest('.touchable').style.opacity = '0.7';
+                }
+            });
+
+            document.addEventListener('touchend', function(e) {
+                if (e.target.closest('.touchable')) {
+                    setTimeout(() => {
+                        e.target.closest('.touchable').style.opacity = '1';
+                    }, 150);
+                }
+            });
+        });
+
+// PWA specific - prevent zoom on double tap
+(function() {
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+})();
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

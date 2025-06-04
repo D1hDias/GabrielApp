@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section Mobile -->
+<div class="hero-mobile">
+    <h1 class="hero-title-mobile">💪 Bora Treinar, Gabriel!</h1>
+    <p class="hero-subtitle-mobile">
+        Seu sistema personalizado de treinos está pronto para te levar ao próximo nível! 🔥
+    </p>
+    <div class="d-grid gap-3 mt-4">
+        <a href="/treinos" class="btn btn-primary-mobile btn-mobile touchable">
+            <i class="bi bi-play-fill me-2"></i> Iniciar Treino
+        </a>
+        <a href="/estatisticas" class="btn btn-outline-mobile btn-mobile touchable">
+            <i class="bi bi-graph-up me-2"></i> Ver Progresso
+        </a>
+    </div>
+</div>
+
+<!-- Quick Stats Mobile -->
+<div class="row g-3 mb-4">
+    <div class="col-6">
+        <div class="stats-card-mobile">
+            <i class="bi bi-calendar-week stats-icon-mobile"></i>
+            <h6 class="fw-bold mb-1">6 Meses</h6>
+            <small class="text-muted">Programa Completo</small>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="stats-card-mobile">
+            <i class="bi bi-trophy stats-icon-mobile"></i>
+            <h6 class="fw-bold mb-1">144 Treinos</h6>
+            <small class="text-muted">6 Dias por Semana</small>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="stats-card-mobile">
+            <i class="bi bi-lightning-fill stats-icon-mobile"></i>
+            <h6 class="fw-bold mb-1">Progressivo</h6>
+            <small class="text-muted">Do Básico ao Avançado</small>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="stats-card-mobile">
+            <i class="bi bi-graph-up stats-icon-mobile"></i>
+            <h6 class="fw-bold mb-1">Trackável</h6>
+            <small class="text-muted">Histórico Completo</small>
+        </div>
+    </div>
+</div>
+
+<!-- Plano dos 6 Meses Mobile -->
+<div class="mb-4">
+    <h3 class="text-center mb-4" style="color: var(--orange-primary);">
+        📋 Seu Plano de 6 Meses
+    </h3>
+    
+    {% for mes_key, mes_data in workouts.items() %}
+    <div class="mobile-card touchable" onclick="window.location.href='/treinos#{{ mes_key }}'">
+        <div class="card-header-mobile">
+            {{ mes_key|replace('mes_', 'Mês ') }} - {{ mes_data.nome }}
+        </div>
+        <div class="card-body-mobile">
+            <p class="mb-3">{{ mes_data.objetivo }}</p>
+            
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-calendar-range text-warning me-2"></i>
+                        <small>Semanas {{ mes_data.semanas[0] }}-{{ mes_data.semanas[-1] }}</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-list-check text-success me-2"></i>
+                        <small>{{ mes_data.treinos|length }} treinos/semana</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="badge-mobile">{{ mes_key|replace('mes_', 'Mês ') }}</span>
+                <i class="bi bi-chevron-right text-muted"></i>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Motivational Quote Mobile -->
+<div class="mobile-card" style="background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%);">
+    <div class="card-body-mobile text-center">
+        <h5 style="color: var(--green-accent); line-height: 1.4;">
+            "O sucesso é a soma de pequenos esforços repetidos dia após dia."
+        </h5>
+        <p class="text-muted mb-0 mt-2">- Robert Collier</p>
+    </div>
+</div>
+
+<!-- Quick Actions Mobile -->
+<div class="row g-3 mt-3">
+    <div class="col-12">
+        <h5 class="text-center mb-3" style="color: var(--text-light);">🚀 Ações Rápidas</h5>
+    </div>
+    
+    <div class="col-6">
+        <a href="/treinos" class="text-decoration-none">
+            <div class="mobile-card touchable text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-calendar-week" style="font-size: 2rem; color: var(--orange-primary);"></i>
+                    <h6 class="mt-2 mb-0">Ver Treinos</h6>
+                    <small class="text-muted">Escolher treino do dia</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-6">
+        <a href="/historico" class="text-decoration-none">
+            <div class="mobile-card touchable text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-graph-up" style="font-size: 2rem; color: var(--green-accent);"></i>
+                    <h6 class="mt-2 mb-0">Histórico</h6>
+                    <small class="text-muted">Ver evolução</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-6">
+        <a href="/grupos" class="text-decoration-none">
+            <div class="mobile-card touchable text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-diagram-3" style="font-size: 2rem; color: var(--orange-primary);"></i>
+                    <h6 class="mt-2 mb-0">Grupos</h6>
+                    <small class="text-muted">Por músculo</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    <div class="col-6">
+        <a href="/estatisticas" class="text-decoration-none">
+            <div class="mobile-card touchable text-center">
+                <div class="card-body-mobile py-3">
+                    <i class="bi bi-bar-chart-fill" style="font-size: 2rem; color: var(--green-accent);"></i>
+                    <h6 class="mt-2 mb-0">Estatísticas</h6>
+                    <small class="text-muted">Dados detalhados</small>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

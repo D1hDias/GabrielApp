@@ -1,0 +1,566 @@
+{% extends "base.html" %}
+
+{% block title %}Executando Treino - Gabriel{% endblock %}
+
+{% block content %}
+<!-- Header do Treino -->
+<div class="mobile-card mb-3">
+    <div class="card-header-mobile">
+        <h5 class="mb-1">🔥 {{ treino.nome }}</h5>
+        <small>{{ treino.grupo_muscular }}</small>
+    </div>
+</div>
+
+<!-- Progress Card -->
+<div class="mobile-card mb-4">
+    <div class="card-body-mobile">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 style="color: var(--green-accent);">📈 Progresso do Treino</h6>
+            <span id="progress-percentage" class="badge-mobile">0%</span>
+        </div>
+        
+        <div class="progress-mobile">
+            <div class="progress-bar" role="progressbar" style="width: 0%" id="progress-bar">
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-between align-items-center mt-2">
+            <small id="exercise-counter" class="text-muted">Exercício 1 de {{ treino.exercicios|length }}</small>
+            <small id="time-elapsed" class="text-muted">⏱️ 0 min</small>
+        </div>
+    </div>
+</div>
+
+<!-- Exercise Cards Container -->
+<div id="exercises-container">
+    {% for exercicio in treino.exercicios %}
+    <div class="mobile-card exercise-item" id="exercise-{{ loop.index0 }}" 
+         {% if loop.first %}style="display: block;"{% else %}style="display: none;"{% endif %}>
+        
+        <div class="card-header-mobile">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>🏋️ {{ exercicio.nome }}</span>
+                <span class="badge bg-light text-dark">{{ loop.index }}/{{ loop.length }}</span>
+            </div>
+        </div>
+        
+        <div class="card-body-mobile">
+            <!-- Especificações do Exercício -->
+            <div class="row g-3 mb-4">
+                <div class="col-6">
+                    <div class="text-center p-3" style="background: rgba(255, 107, 53, 0.1); border-radius: 12px;">
+                        <h6 style="color: var(--orange-primary); margin-bottom: 5px;">Séries</h6>
+                        <strong style="font-size: 1.5rem;">{{ exercicio.series }}</strong>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-center p-3" style="background: rgba(78, 205, 196, 0.1); border-radius: 12px;">
+                        <h6 style="color: var(--green-accent); margin-bottom: 5px;">Reps</h6>
+                        <strong style="font-size: 1.5rem;">{{ exercicio.reps }}</strong>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-center p-3" style="background: rgba(255, 107, 53, 0.1); border-radius: 12px;">
+                        <h6 style="color: var(--orange-primary); margin-bottom: 5px;">Descanso</h6>
+                        <strong>{{ exercicio.descanso }}</strong>
+                    </div>
+                </div>
+                <div class="col-6">
+                    {% if exercicio.observacao %}
+                    <div class="text-center p-3" style="background: rgba(78, 205, 196, 0.1); border-radius: 12px;">
+                        <h6 style="color: var(--green-accent); margin-bottom: 5px;">RPE/Obs</h6>
+                        <small><strong>{{ exercicio.observacao }}</strong></small>
+                    </div>
+                    {% else %}
+                    <div class="text-center p-3" style="background: rgba(200, 200, 200, 0.1); border-radius: 12px;">
+                        <h6 style="color: var(--text-muted); margin-bottom: 5px;">RPE</h6>
+                        <small>Livre</small>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Dica de Execução -->
+            {% if exercicio.dica %}
+            <div class="mb-4 p-3" style="background: rgba(78, 205, 196, 0.1); border-radius: 12px; border-left: 4px solid var(--green-accent);">
+                <h6 style="color: var(--green-accent);">💡 Dica de Execução:</h6>
+                <p class="mb-0" style="font-size: 0.9rem; line-height: 1.4;">{{ exercicio.dica }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Controle de Peso -->
+            <div class="mb-4">
+                <label for="peso-{{ loop.index0 }}" class="form-label-mobile">
+                    💪 Peso Usado (kg):
+                </label>
+                <div class="row g-2">
+                    <div class="col-8">
+                        <input type="number" class="form-control-mobile" id="peso-{{ loop.index0 }}" 
+                               placeholder="0.0" step="0.5" min="0" max="500">
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-outline-mobile w-100" 
+                                style="height: 48px; background: rgba(255, 193, 7, 0.2); border-color: #ffc107;" 
+                                data-exercise="{{ loop.index0 }}"
+                                onclick="sugerirPeso(this.dataset.exercise)" 
+                                type="button">
+                            <i class="bi bi-lightbulb" style="color: #ffc107;"></i>
+                        </button>
+                    </div>
+                </div>
+                <small class="text-muted color: #ffffff">Toque no 💡 para sugestão baseada no histórico</small>
+            </div>
+
+            <!-- Cronômetro de Descanso -->
+            <div class="mb-4 text-center" id="rest-timer-{{ loop.index0 }}" style="display: none;">
+                <div class="p-3" style="background: rgba(255, 107, 53, 0.1); border-radius: 12px;">
+                    <h6 style="color: var(--orange-primary);">⏱️ Tempo de Descanso</h6>
+                    <div id="timer-display-{{ loop.index0 }}" style="font-size: 2rem; font-weight: bold; color: var(--orange-primary);">
+                        00:00
+                    </div>
+                    <button class="btn btn-outline-mobile btn-sm mt-2" 
+                            data-exercise="{{ loop.index0 }}"
+                            onclick="skipRest(this.dataset.exercise)" 
+                            type="button">
+                        Pular Descanso
+                    </button>
+                </div>
+            </div>
+
+            <!-- Botão de Ação -->
+            <div class="d-grid">
+                <button class="btn btn-success-mobile btn-mobile touchable" 
+                        id="action-btn-{{ loop.index0 }}"
+                        data-exercise="{{ loop.index0 }}"
+                        onclick="concluirExercicio(this.dataset.exercise)" 
+                        type="button">
+                    <i class="bi bi-check-lg me-2"></i> Exercício Concluído
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Final Card -->
+<div class="mobile-card" id="final-card" style="display: none;">
+    <div class="card-header-mobile text-center">
+        <h4>🎉 Treino Finalizado!</h4>
+    </div>
+    <div class="card-body-mobile text-center">
+        <h5 style="color: var(--green-accent);">Parabéns, Gabriel! 🔥</h5>
+        <p class="mb-4">Mais um treino completo no seu histórico!</p>
+        
+        <div id="resumo-treino" class="mb-4"></div>
+        
+        <div class="d-grid gap-3">
+            <a href="/treinos" class="btn btn-primary-mobile btn-mobile touchable">
+                <i class="bi bi-calendar-week me-2"></i> Ver Outros Treinos
+            </a>
+            <a href="/estatisticas" class="btn btn-outline-mobile btn-mobile touchable">
+                <i class="bi bi-graph-up me-2"></i> Ver Suas Estatísticas
+            </a>
+            <a href="/" class="btn btn-outline-mobile btn-mobile touchable">
+                <i class="bi bi-house me-2"></i> Voltar ao Início
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Controls -->
+<div class="position-fixed" style="bottom: 100px; right: 20px; z-index: 999;">
+    <div class="d-flex flex-column gap-3">
+        <button class="btn rounded-circle touchable" 
+                style="width: 56px; height: 56px; 
+                       background: rgba(255, 107, 53, 0.9); 
+                       border: 2px solid var(--orange-primary);
+                       box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);" 
+                onclick="pausarTreino()" 
+                id="pauseBtn" 
+                title="Pausar"
+                type="button">
+            <i class="bi bi-pause-fill" style="color: white; font-size: 1.2rem;"></i>
+        </button>
+        <button class="btn rounded-circle touchable" 
+                style="width: 56px; height: 56px; 
+                       background: rgba(220, 53, 69, 0.9); 
+                       border: 2px solid #dc3545;
+                       box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);" 
+                onclick="pararTreino()" 
+                id="stopBtn" 
+                title="Parar"
+                type="button">
+            <i class="bi bi-stop-fill" style="color: white; font-size: 1.2rem;"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+    <div id="motivational-toast" class="toast" role="alert">
+        <div class="toast-header" style="background: var(--green-accent); color: white;">
+            <strong class="me-auto">💪 Gabriel</strong>
+        </div>
+        <div class="toast-body toast-mobile">
+            Mensagem motivacional aqui!
+        </div>
+    </div>
+</div>
+
+<!-- Hidden data for JavaScript -->
+<script type="application/json" id="workout-data">
+{
+    "total_exercicios": {{ treino.exercicios|length }},
+    "treino_nome": "{{ treino.nome }}",
+    "grupo_muscular": "{{ treino.grupo_muscular }}"
+}
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Workout data
+const workoutData = JSON.parse(document.getElementById('workout-data').textContent);
+let exercicioAtual = 0;
+let totalExercicios = workoutData.total_exercicios;
+let startTime = new Date();
+let isPaused = false;
+let restTimers = {};
+
+// Time tracking
+function updateTimeElapsed() {
+    if (!isPaused) {
+        const now = new Date();
+        const elapsed = Math.floor((now - startTime) / (1000 * 60));
+        document.getElementById('time-elapsed').textContent = `⏱️ ${elapsed} min`;
+    }
+}
+
+setInterval(updateTimeElapsed, 60000); // Update every minute
+
+// Peso suggestion based on previous workouts (mock) - GLOBAL
+window.sugerirPeso = function(exerciseIndex) {
+    const input = document.getElementById('peso-' + exerciseIndex);
+    // Mock suggestion - in real app, this would query historical data
+    const suggestion = Math.floor(Math.random() * 20) + 10; // 10-30kg range
+    input.value = suggestion;
+    
+    // Vibrate and show feedback
+    if ('vibrate' in navigator) {
+        navigator.vibrate(50);
+    }
+    
+    showToast('💡 Peso sugerido baseado no seu histórico!');
+};
+
+// Rest timer skip function - GLOBAL
+window.skipRest = function(exerciseIndex) {
+    if (restTimers[exerciseIndex]) {
+        clearInterval(restTimers[exerciseIndex]);
+    }
+    document.getElementById('rest-timer-' + exerciseIndex).style.display = 'none';
+    showToast('⚡ Descanso pulado! Vamos nessa!');
+};
+
+// Rest timer
+function startRestTimer(exerciseIndex, duration) {
+    const timerElement = document.getElementById('timer-display-' + exerciseIndex);
+    const timerContainer = document.getElementById('rest-timer-' + exerciseIndex);
+    
+    // Parse duration (e.g., "60s", "90s", "2min")
+    let seconds = 60; // default
+    if (duration.includes('s')) {
+        seconds = parseInt(duration);
+    } else if (duration.includes('min')) {
+        seconds = parseInt(duration) * 60;
+    }
+    
+    timerContainer.style.display = 'block';
+    
+    const timer = setInterval(() => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        
+        if (seconds <= 0) {
+            clearInterval(timer);
+            timerContainer.style.display = 'none';
+            
+            // Vibrate and notify
+            if ('vibrate' in navigator) {
+                navigator.vibrate([200, 100, 200]);
+            }
+            showToast('⏰ Descanso terminado! Próxima série!');
+        }
+        seconds--;
+    }, 1000);
+    
+    restTimers[exerciseIndex] = timer;
+}
+
+// Complete exercise - GLOBAL
+window.concluirExercicio = function(exerciseIndex) {
+    const peso = document.getElementById('peso-' + exerciseIndex).value || 0;
+    
+    // Show loading
+    const btn = document.getElementById('action-btn-' + exerciseIndex);
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px;"></div>';
+    btn.disabled = true;
+    
+    // API call
+    fetch('/api/concluir-exercicio', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            exercicio: exerciseIndex,
+            peso: parseFloat(peso)
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Hide current exercise
+            document.getElementById('exercise-' + exerciseIndex).style.display = 'none';
+            
+            exercicioAtual++;
+            
+            // Update progress
+            const progresso = (exercicioAtual / totalExercicios) * 100;
+            document.getElementById('progress-bar').style.width = progresso + '%';
+            document.getElementById('progress-percentage').textContent = Math.round(progresso) + '%';
+            document.getElementById('exercise-counter').textContent = 
+                `Exercício ${exercicioAtual + 1} de ${totalExercicios}`;
+            
+            if (exercicioAtual < totalExercicios) {
+                // Show next exercise
+                document.getElementById('exercise-' + exercicioAtual).style.display = 'block';
+                
+                // Show motivational message
+                showMotivationalMessage();
+                
+                // Scroll to next exercise
+                document.getElementById('exercise-' + exercicioAtual).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            } else {
+                // Finish workout
+                finalizarTreino();
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        showToast('❌ Erro ao concluir exercício. Tente novamente.');
+    });
+};
+
+// Motivational messages
+function showMotivationalMessage() {
+    const frases = [
+        "🔥 Boa, Gabriel! Próximo exercício!",
+        "💪 Você está mandando bem!",
+        "⚡ Continue com essa energia!",
+        "🎯 Foco e força no próximo!",
+        "🚀 Arrasando no treino!",
+        "💥 Isso aí! Não para!",
+        "🏆 Campeão! Vamos para o próximo!",
+        "🔋 Energia total! Continua!",
+        "⭐ Show, Gabriel! Mais um!"
+    ];
+    
+    const frase = frases[Math.floor(Math.random() * frases.length)];
+    showToast(frase);
+    
+    // Vibrate
+    if ('vibrate' in navigator) {
+        navigator.vibrate(100);
+    }
+}
+
+// Toast notification
+function showToast(message) {
+    const toastElement = document.getElementById('motivational-toast');
+    const toastBody = toastElement.querySelector('.toast-body');
+    toastBody.textContent = message;
+    
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+}
+
+// Finish workout
+function finalizarTreino() {
+    fetch('/api/finalizar-treino', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const resumo = data.resumo;
+            
+            document.getElementById('resumo-treino').innerHTML = 
+                '<div class="row g-2">' +
+                    '<div class="col-6">' +
+                        '<div class="stats-card-mobile">' +
+                            '<h6>' + resumo.exercises_completed + '/' + resumo.total_exercises + '</h6>' +
+                            '<small>Exercícios</small>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-6">' +
+                        '<div class="stats-card-mobile">' +
+                            '<h6>' + resumo.duration_minutes + 'min</h6>' +
+                            '<small>Duração</small>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-6">' +
+                        '<div class="stats-card-mobile">' +
+                            '<h6>' + Math.round(resumo.completion_rate) + '%</h6>' +
+                            '<small>Conclusão</small>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="col-6">' +
+                        '<div class="stats-card-mobile">' +
+                            '<h6>~' + (resumo.duration_minutes * 8) + '</h6>' +
+                            '<small>Calorias</small>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            
+            document.getElementById('final-card').style.display = 'block';
+            document.getElementById('progress-bar').style.width = '100%';
+            document.getElementById('progress-percentage').textContent = '100%';
+            
+            // Hide floating controls
+            document.getElementById('pauseBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'none';
+            
+            // Vibrate celebration
+            if ('vibrate' in navigator) {
+                navigator.vibrate([300, 100, 300, 100, 300]);
+            }
+            
+            // Scroll to final card
+            document.getElementById('final-card').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+            
+            // Show final toast
+            showToast('🎉 Treino finalizado! Parabéns, Gabriel!');
+        }
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        showToast('❌ Erro ao finalizar treino. Tente novamente.');
+    });
+}
+
+// Pause/Resume workout - GLOBAL
+window.pausarTreino = function() {
+    console.log('Pausando/retomando treino');
+    isPaused = !isPaused;
+    const btn = document.getElementById('pauseBtn');
+    
+    if (!btn) {
+        console.error('Botão pause não encontrado');
+        return;
+    }
+    
+    if (isPaused) {
+        btn.innerHTML = '<i class="bi bi-play-fill" style="color: white; font-size: 1.2rem;"></i>';
+        btn.title = 'Retomar';
+        btn.style.background = 'rgba(78, 205, 196, 0.9)';
+        btn.style.borderColor = 'var(--green-accent)';
+        showToast('⏸️ Treino pausado');
+        
+        // Pause all timers
+        Object.keys(restTimers).forEach(key => {
+            if (restTimers[key]) {
+                clearInterval(restTimers[key]);
+            }
+        });
+    } else {
+        btn.innerHTML = '<i class="bi bi-pause-fill" style="color: white; font-size: 1.2rem;"></i>';
+        btn.title = 'Pausar';
+        btn.style.background = 'rgba(255, 107, 53, 0.9)';
+        btn.style.borderColor = 'var(--orange-primary)';
+        showToast('▶️ Treino retomado');
+    }
+};
+
+// Stop workout - GLOBAL
+window.pararTreino = function() {
+    console.log('Parando treino');
+    
+    // Custom confirm dialog for mobile
+    const confirmStop = confirm('🛑 Tem certeza que deseja parar o treino?\n\n⚠️ O progresso atual será perdido.\n\n✅ Confirmar parada\n❌ Continuar treino');
+    
+    if (confirmStop) {
+        // Clear all timers
+        Object.keys(restTimers).forEach(key => {
+            if (restTimers[key]) {
+                clearInterval(restTimers[key]);
+                delete restTimers[key];
+            }
+        });
+        
+        // Show stopping message
+        showToast('🛑 Parando treino...');
+        
+        // Redirect after short delay
+        setTimeout(() => {
+            window.location.href = "/treinos";
+        }, 1000);
+    } else {
+        showToast('✅ Treino continuado!');
+    }
+};
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Set initial state
+    document.getElementById('exercise-counter').textContent = `Exercício 1 de ${totalExercicios}`;
+    
+    // Add touch feedback to all buttons
+    document.querySelectorAll('.btn-mobile').forEach(btn => {
+        btn.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        btn.addEventListener('touchend', function() {
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
+    
+    // Prevent accidental page refresh
+    window.addEventListener('beforeunload', function(e) {
+        if (exercicioAtual > 0 && exercicioAtual < totalExercicios) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+});
+
+// PWA specific - prevent zoom on double tap (isolado para evitar conflito)
+(function() {
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+})();
+</script>
+{% endblock %}

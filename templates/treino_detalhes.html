@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}{{ treino.nome }} - Gabriel{% endblock %}
+
+{% block content %}
+<div class="mobile-card">
+    <div class="card-header-mobile text-center">
+        <h4>{{ treino.nome }}</h4>
+        <p class="mb-0" style="color: white;">{{ treino.grupo_muscular }}</p>
+    </div>
+</div>
+
+<div class="mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="/treinos" class="btn btn-outline-mobile btn-mobile touchable">
+            <i class="bi bi-arrow-left me-2"></i> Voltar aos Treinos
+        </a>
+        <a href="/executar-treino/{{ mes }}/{{ dia }}" class="btn btn-primary-mobile btn-mobile touchable">
+            <i class="bi bi-play-fill me-2"></i> Iniciar Este Treino
+        </a>
+    </div>
+
+    <div class="row g-3">
+        {% for exercicio in treino.exercicios %}
+        <div class="col-12">
+            <div class="mobile-card h-100">
+                <div class="card-header-mobile">
+                    <h6 class="mb-0" style="color: white;">🏋️ {{ exercicio.nome }}</h6>
+                </div>
+                <div class="card-body-mobile">
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <div class="text-center p-3" style="background: rgba(255, 107, 53, 0.15); border-radius: 10px; border: 1px solid rgba(255, 107, 53, 0.3);">
+                                <strong style="color: var(--orange-primary); font-size: 1.1rem;">Séries:</strong>
+                                <div style="color: var(--text-light); font-size: 1.3rem; font-weight: bold;">{{ exercicio.series }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-3" style="background: rgba(78, 205, 196, 0.15); border-radius: 10px; border: 1px solid rgba(78, 205, 196, 0.3);">
+                                <strong style="color: var(--green-accent); font-size: 1.1rem;">Reps:</strong>
+                                <div style="color: var(--text-light); font-size: 1.3rem; font-weight: bold;">{{ exercicio.reps }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-3" style="background: rgba(255, 107, 53, 0.15); border-radius: 10px; border: 1px solid rgba(255, 107, 53, 0.3);">
+                                <strong style="color: var(--orange-primary); font-size: 1.1rem;">Descanso:</strong>
+                                <div style="color: var(--text-light); font-size: 1.1rem; font-weight: bold;">{{ exercicio.descanso }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            {% if exercicio.observacao %}
+                            <div class="text-center p-3" style="background: rgba(78, 205, 196, 0.15); border-radius: 10px; border: 1px solid rgba(78, 205, 196, 0.3);">
+                                <strong style="color: var(--green-accent); font-size: 1.1rem;">Obs:</strong>
+                                <div style="color: var(--text-light); font-size: 1rem; font-weight: bold;">{{ exercicio.observacao }}</div>
+                            </div>
+                            {% else %}
+                            <div class="text-center p-3" style="background: rgba(128, 128, 128, 0.15); border-radius: 10px; border: 1px solid rgba(128, 128, 128, 0.3);">
+                                <strong style="color: var(--text-muted); font-size: 1.1rem;">RPE:</strong>
+                                <div style="color: var(--text-muted); font-size: 1rem;">Livre</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if exercicio.dica %}
+                    <div class="mt-3 p-3" style="background: rgba(78, 205, 196, 0.1); border-radius: 10px; border-left: 4px solid var(--green-accent);">
+                        <h6 style="color: var(--green-accent); margin-bottom: 8px;">💡 Dica:</h6>
+                        <p class="mb-0" style="color: var(--text-light); line-height: 1.5;">{{ exercicio.dica }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block title %}Grupos Musculares - Gabriel{% endblock %}
+
+{% block content %}
+<div class="hero-mobile">
+    <h1 class="hero-title-mobile">💪 Grupos Musculares</h1>
+    <p class="hero-subtitle-mobile">Veja todos os treinos organizados por músculos trabalhados</p>
+</div>
+
+{% for grupo, treinos in grupos.items() %}
+<div class="mb-4">
+    <div class="mobile-card">
+        <div class="card-header-mobile">
+            <h5 class="mb-0">
+                {% if grupo == "Pernas e Glúteos" %}🦵
+                {% elif grupo == "Peito, Costas e Ombros" %}💪
+                {% elif grupo == "Core e Mobilidade" %}🎯
+                {% elif grupo == "Cardio e Condicionamento" %}❤️
+                {% elif grupo == "Pernas e Potência" %}⚡
+                {% elif grupo == "Esporte" %}⚽
+                {% elif grupo == "Pernas e Estabilidade" %}🏛️
+                {% elif grupo == "Peito, Costas e Coordenação" %}🤹
+                {% elif grupo == "Cardio e Agilidade" %}🏃
+                {% elif grupo == "Pernas e Explosão" %}💥
+                {% elif grupo == "Peito, Costas e Explosão" %}🚀
+                {% elif grupo == "Recuperação" %}🧘
+                {% elif grupo == "Corpo Todo - Contraste" %}⚖️
+                {% elif grupo == "Cardio e Velocidade" %}🏎️
+                {% elif grupo == "Pernas - Hipertrofia" %}🏗️
+                {% elif grupo == "Peito, Costas - Hipertrofia" %}🏗️
+                {% elif grupo == "Pernas - Potência Integrada" %}🔗
+                {% elif grupo == "Peito, Costas - Performance" %}🎭
+                {% elif grupo == "Core e Estabilidade" %}⚖️
+                {% elif grupo == "Corpo Todo - Polimento" %}✨
+                {% elif grupo == "Potência e Técnica" %}🎯
+                {% else %}🏋️
+                {% endif %}
+                {{ grupo }}
+            </h5>
+        </div>
+        
+        <div class="card-body-mobile">
+            <!-- Muscle Group Visualization -->
+            <div class="mb-4">
+                {% if "Pernas" in grupo %}
+                <div class="text-center p-3" style="background: rgba(255, 107, 53, 0.1); border-radius: 12px;">
+                    <div style="font-size: 1.5rem; line-height: 1.2;">
+                        🦵 PERNAS E GLÚTEOS 🦵<br>
+                        <small style="font-size: 0.8rem;">
+                            🍑 Glúteos → 💪 Quadríceps → 🔥 Posterior → ⚡ Panturrilhas
+                        </small>
+                    </div>
+                </div>
+                {% elif "Peito" in grupo or "Costas" in grupo %}
+                <div class="text-center p-3" style="background: rgba(78, 205, 196, 0.1); border-radius: 12px;">
+                    <div style="font-size: 1.5rem; line-height: 1.2;">
+                        💪 MEMBROS SUPERIORES 💪<br>
+                        <small style="font-size: 0.8rem;">
+                            🔺 Ombros → 💪 Peito → 🦅 Costas
+                        </small>
+                    </div>
+                </div>
+                {% elif "Core" in grupo %}
+                <div class="text-center p-3" style="background: rgba(255, 193, 7, 0.1); border-radius: 12px;">
+                    <div style="font-size: 1.5rem; line-height: 1.2;">
+                        🎯 CORE E ESTABILIDADE 🎯<br>
+                        <small style="font-size: 0.8rem;">
+                            💪 Abdominais → 🏛️ Estabilizadores → 🤸 Mobilidade
+                        </small>
+                    </div>
+                </div>
+                {% elif "Cardio" in grupo %}
+                <div class="text-center p-3" style="background: rgba(220, 53, 69, 0.1); border-radius: 12px;">
+                    <div style="font-size: 1.5rem; line-height: 1.2;">
+                        ❤️ CARDIO E CONDICIONAMENTO ❤️<br>
+                        <small style="font-size: 0.8rem;">
+                            🏃 Resistência → ⚡ Velocidade → 🤸 Agilidade
+                        </small>
+                    </div>
+                </div>
+                {% else %}
+                <div class="text-center p-3" style="background: rgba(108, 117, 125, 0.1); border-radius: 12px;">
+                    <div style="font-size: 1.5rem; line-height: 1.2;">
+                        🏋️ TREINAMENTO GERAL 🏋️<br>
+                        <small style="font-size: 0.8rem;">
+                            💪 Força → ⚡ Potência → 🎯 Técnica
+                        </small>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="mb-4">
+                <h6 style="color: var(--green-accent);">💎 Benefícios:</h6>
+                <div class="row g-2">
+                    {% if "Pernas" in grupo %}
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(255, 107, 53, 0.1); border-radius: 8px;">
+                            <i class="bi bi-speedometer2 me-2" style="color: var(--orange-primary);"></i>
+                            <small>Velocidade</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                            <i class="bi bi-lightning me-2" style="color: var(--green-accent);"></i>
+                            <small>Potência</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(255, 107, 53, 0.1); border-radius: 8px;">
+                            <i class="bi bi-shield me-2" style="color: var(--orange-primary);"></i>
+                            <small>Proteção</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                            <i class="bi bi-fire me-2" style="color: var(--green-accent);"></i>
+                            <small>Queima calórica</small>
+                        </div>
+                    </div>
+                    {% elif "Peito" in grupo or "Costas" in grupo %}
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(255, 107, 53, 0.1); border-radius: 8px;">
+                            <i class="bi bi-person-check me-2" style="color: var(--orange-primary);"></i>
+                            <small>Postura</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                            <i class="bi bi-arrow-up me-2" style="color: var(--green-accent);"></i>
+                            <small>Força funcional</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(255, 107, 53, 0.1); border-radius: 8px;">
+                            <i class="bi bi-lightning me-2" style="color: var(--orange-primary);"></i>
+                            <small>Potência</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                            <i class="bi bi-shield me-2" style="color: var(--green-accent);"></i>
+                            <small>Proteção</small>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(255, 107, 53, 0.1); border-radius: 8px;">
+                            <i class="bi bi-graph-up me-2" style="color: var(--orange-primary);"></i>
+                            <small>Performance</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                            <i class="bi bi-heart me-2" style="color: var(--green-accent);"></i>
+                            <small>Condicionamento</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(255, 107, 53, 0.1); border-radius: 8px;">
+                            <i class="bi bi-lightning me-2" style="color: var(--orange-primary);"></i>
+                            <small>Explosão</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center p-2" style="background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                            <i class="bi bi-shield me-2" style="color: var(--green-accent);"></i>
+                            <small>Prevenção</small>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Workouts List -->
+            <div class="mb-3">
+                <h6 style="color: var(--orange-primary);">📋 Treinos deste Grupo:</h6>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <small class="text-muted">{{ treinos|length }} treinos encontrados</small>
+                </div>
+            </div>
+
+            <!-- Workouts Container -->
+            <div class="workouts-container">
+                {% for treino in treinos %}
+                <div class="exercise-card-mobile mb-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-1">
+                                <span class="badge" style="background: var(--orange-primary); color: white; font-size: 0.7rem; margin-right: 8px; font-weight: 600;">
+                                    {{ treino.dia }}
+                                </span>
+                                <h6 class="mb-0" style="font-size: 0.9rem; color: var(--text-light); font-weight: 600;">
+                                    {{ treino.nome[:35] }}{% if treino.nome|length > 35 %}...{% endif %}
+                                </h6>
+                            </div>
+                            <small style="color: var(--text-secondary);">
+                                {{ treino.mes }} • {{ treino.exercicios }} exercícios
+                            </small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge-mobile" style="font-size: 0.7rem;">{{ treino.exercicios }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Quick Navigation -->
+<div class="mobile-card mt-4">
+    <div class="card-body-mobile">
+        <h6 class="mb-3" style="color: var(--green-accent);">🚀 Navegação Rápida</h6>
+        <div class="row g-2">
+            <div class="col-6">
+                <a href="/treinos" class="btn btn-outline-mobile w-100 btn-sm touchable">
+                    <i class="bi bi-calendar-week me-1"></i> Ver Treinos
+                </a>
+            </div>
+            <div class="col-6">
+                <a href="/historico" class="btn btn-outline-mobile w-100 btn-sm touchable">
+                    <i class="bi bi-clock-history me-1"></i> Histórico
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
