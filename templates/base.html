@@ -128,13 +128,12 @@
 
         /* Mobile Cards */
         .mobile-card {
-            background: linear-gradient(135deg, var(--bg-card) 0%, #242424 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 4px 20px var(--shadow-color);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--bg-card) 0%, #323232 100%) !important;
+            border: 2px solid var(--border-color) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+            overflow: hidden !important;
+            margin-bottom: 1rem !important;
         }
 
         .mobile-card:active {
@@ -149,18 +148,31 @@
         }
 
         .card-header-mobile {
-            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%) !important;
             color: white !important;
-            font-weight: 700;
-            font-size: 1.1rem;
-            padding: 16px;
-            border: none;
-            text-align: center;
+            font-weight: 700 !important;
+            padding: 16px !important;
+            border-radius: 16px 16px 0 0 !important;
+            border: none !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .card-header-mobile h5 {
+            color: white !important;
+            font-weight: bold !important;
+            margin-bottom: 5px !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .card-header-mobile small {
+            color: rgba(255, 255, 255, 0.95) !important;
+            font-weight: 600 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
         }
 
         .card-body-mobile {
-            padding: 20px;
-            color: var(--text-light);
+            padding: 1.5rem !important;
+            color: var(--text-light) !important;
         }
 
         /* Mobile Buttons */
@@ -180,9 +192,13 @@
         }
 
         .btn-primary-mobile {
-            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%) !important;
+            border: none !important;
             color: white !important;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            font-weight: bold !important;
+            font-size: 1.1rem !important;
+            padding: 16px !important;
+            border-radius: 12px !important;
         }
 
         .btn-primary-mobile:active {
@@ -190,27 +206,42 @@
         }
 
         .btn-primary-mobile:hover {
-            background: linear-gradient(135deg, var(--orange-hover) 0%, #ff9a5a 100%);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, var(--orange-hover) 0%, #ff9a5a 100%) !important;
+            transform: translateY(-2px) !important;
+            color: white !important;
         }
 
         .btn-success-mobile {
-            background: linear-gradient(135deg, var(--green-accent) 0%, #5dd3c8 100%);
+            background: linear-gradient(135deg, var(--green-accent) 0%, #5dd3c8 100%) !important;
+            border: none !important;
             color: white !important;
-            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+            font-weight: bold !important;
+            font-size: 1.1rem !important;
+            padding: 16px !important;
+            border-radius: 12px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-success-mobile:hover {
+            background: linear-gradient(135deg, #5dd3c8 0%, #6de3d8 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4) !important;
         }
 
         .btn-outline-mobile {
-            border: 2px solid var(--orange-primary);
-            color: var(--orange-primary) !important;
-            background: rgba(255, 107, 53, 0.1);
-            backdrop-filter: blur(10px);
+            border: 2px solid #ffc107 !important;
+            background: rgba(255, 193, 7, 0.15) !important;
+            color: #ffc107 !important;
+            font-weight: 700 !important;
+            transition: all 0.3s ease !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
         }
 
-        .btn-outline-mobile:hover {
-            background: var(--orange-primary) !important;
-            color: white !important;
+        .btn-outline-mobile:hover, .btn-outline-mobile:active {
+            background: #ffc107 !important;
+            color: #000 !important;
+            transform: scale(1.05) !important;
+            text-shadow: none !important;
         }
 
         /* Hero Section Mobile */
@@ -282,60 +313,83 @@
 
         /* Progress Bars Mobile */
         .progress-mobile {
-            background-color: rgba(255, 107, 53, 0.2);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.15) !important;
+            height: 10px !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
 
         .progress-mobile .progress-bar {
-            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
-            border-radius: 4px;
-            transition: width 0.5s ease;
+            background: linear-gradient(135deg, var(--green-accent) 0%, #5dd3c8 100%) !important;
+            border-radius: 8px !important;
+            transition: width 0.6s ease !important;
+            box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3) !important;
         }
 
         /* Form Elements Mobile */
         .form-control-mobile {
-            background-color: var(--bg-card);
-            border: 2px solid var(--border-color);
-            color: var(--text-light);
-            border-radius: 12px;
-            padding: 16px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            min-height: 48px;
+            background-color: rgba(255, 255, 255, 0.08) !important;
+            border: 2px solid rgba(255, 255, 255, 0.15) !important;
+            color: var(--text-light) !important;
+            border-radius: 12px !important;
+            padding: 14px 16px !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
         }
 
         .form-control-mobile:focus {
-            background-color: var(--bg-card-hover);
-            border-color: var(--orange-primary);
-            color: var(--text-light);
-            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
-            outline: none;
+            background-color: rgba(255, 255, 255, 0.12) !important;
+            border-color: var(--orange-primary) !important;
+            color: var(--text-light) !important;
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25) !important;
+        }
+
+        .form-control-mobile::placeholder {
+            color: rgba(255, 255, 255, 0.6) !important;
+            font-weight: 500 !important;
         }
 
         .form-label-mobile {
             color: var(--text-light) !important;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 8px;
+            font-weight: 700 !important;
+            font-size: 1rem !important;
+            margin-bottom: 8px !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
         }
-
         /* Stats Cards Mobile */
         .stats-card-mobile {
-            background: linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(78, 205, 196, 0.05) 100%);
-            border: 1px solid rgba(78, 205, 196, 0.4);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 12px !important;
+            padding: 16px !important;
+            text-align: center !important;
+        }
+
+        .stats-card-mobile h6 {
+            color: var(--text-light) !important;
+            font-weight: bold !important;
+            font-size: 1.4rem !important;
+            margin-bottom: 4px !important;
+        }
+
+        .stats-card-mobile small {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 500 !important;
         }
 
         .stats-icon-mobile {
             font-size: 2rem;
             color: var(--orange-primary);
             margin-bottom: 8px;
+        }
+
+        /* TOAST MÓVEL */
+        .toast-mobile {
+            background: rgba(42, 42, 42, 0.95) !important;
+            color: var(--text-light) !important;
+            font-weight: 500 !important;
+            border: 2px solid var(--green-accent) !important;
         }
 
         /* Responsive Typography */
@@ -365,12 +419,40 @@
 
         /* Badge Mobile */
         .badge-mobile {
-            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            background: rgba(255, 255, 255, 0.25) !important;
             color: white !important;
-            padding: 8px 12px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-weight: bold !important;
+            padding: 10px 14px !important;
+            border-radius: 20px !important;
+            border: 2px solid rgba(255, 255, 255, 0.4) !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+            font-size: 0.9rem !important;
+        }
+
+        /* TEXTOS DO PROGRESSO - Melhor legibilidade */
+        #exercise-counter, #time-elapsed {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* TÍTULO DO EXERCÍCIO - Header */
+        .exercise-item .card-header-mobile span:first-child {
+            color: white !important;
+            font-weight: bold !important;
+            font-size: 1.1rem !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* BADGE DO EXERCÍCIO - Melhor contraste */
+        .exercise-item .card-header-mobile .badge {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: var(--orange-primary) !important;
+            font-weight: bold !important;
+            border: 2px solid rgba(255, 255, 255, 0.8) !important;
+            text-shadow: none !important;
+            font-size: 0.8rem !important;
         }
 
         /* Loading Animation */
@@ -384,6 +466,22 @@
             margin: 0 auto;
         }
 
+        /* RESPONSIVIDADE ESPECÍFICA */
+        @media (max-width: 768px) {
+            .card-header-mobile h5 {
+                font-size: 1.1rem !important;
+            }
+            
+            .btn-mobile {
+                font-size: 1rem !important;
+                padding: 14px !important;
+            }
+            
+            .stats-card-mobile h6 {
+                font-size: 1.2rem !important;
+            }
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -391,12 +489,11 @@
 
         /* Touch improvements */
         .touchable {
-            cursor: pointer;
-            -webkit-tap-highlight-color: rgba(255, 107, 53, 0.2);
+            transition: all 0.2s ease !important;
         }
 
         .touchable:active {
-            opacity: 0.8;
+            transform: scale(0.95) !important;
         }
 
         /* Container adjustments */
