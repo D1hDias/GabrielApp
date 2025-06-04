@@ -67,6 +67,11 @@
                         <p class="mb-0" style="color: var(--text-light); line-height: 1.5;">{{ exercicio.dica }}</p>
                     </div>
                     {% endif %}
+                    <div class="mt-3 text-center">
+                        <button class="btn btn-outline-mobile" onclick="verMidia('{{ exercicio.nome }}')" style="border-color: #6f42c1; color: #6f42c1;">
+                            <i class="bi bi-play-circle me-2"></i>Ver Demonstração
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,3 +79,21 @@
     </div>
 </div>
 {% endblock %}
+
+<script>
+function verMidia(exerciseName) {
+    fetch(`/api/obter-midia/${encodeURIComponent(exerciseName)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && (data.media.video || data.media.imagem)) {
+                let content = `<h6>${exerciseName}</h6>`;
+                if (data.media.video) content += `<p><a href="${data.media.video}" target="_blank">🎥 Ver Vídeo</a></p>`;
+                if (data.media.imagem) content += `<p><img src="${data.media.imagem}" style="max-width:100%"></p>`;
+                if (data.media.descricao) content += `<p>${data.media.descricao}</p>`;
+                alert(content); // Substitua por modal se quiser
+            } else {
+                alert('Nenhuma mídia cadastrada para este exercício');
+            }
+        });
+}
+</script>
