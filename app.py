@@ -18,6 +18,8 @@ class WorkoutWebManager:
     def __init__(self):
         self.data_file = "gabriel_workouts.json"
         self.history_file = "gabriel_history.json"
+        self.media_file = "gabriel_media.json"
+        self.media_links = self.load_media_links()
         self.workouts = self.load_workouts()
         self.history = self.load_history()
     
@@ -543,6 +545,16 @@ def finalizar_treino():
         
         workout_manager.history.append(session_data)
         workout_manager.save_history()
+
+        def load_media_links(self):
+            if os.path.exists(self.media_file):
+                with open(self.media_file, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            return {}
+
+        def save_media_links(self):
+            with open(self.media_file, 'w', encoding='utf-8') as f:
+                json.dump(self.media_links, f, ensure_ascii=False, indent=2)        
         
         # Limpar sessão
         session.pop('treino_atual', None)
@@ -558,6 +570,25 @@ def finalizar_treino():
             'success': False,
             'error': str(e)
         }), 500
+    
+@app.route('/api/obter-midia/<exercise_name>')
+def obter_midia(exercise_name):
+    media = workout_manager.media_links.get(exercise_name, {})
+    return jsonify({'success': True, 'media': media})
+
+@app.route('/api/salvar-midia', methods=['POST'])
+def salvar_midia():
+    data = request.json
+    exercise_name = data.get('exercise_name')
+    if exercise_name:
+        workout_manager.media_links[exercise_name] = {
+            'video': data.get('video_url', ''),
+            'imagem': data.get('image_url', ''),
+            'descricao': data.get('description', '')
+        }
+        workout_manager.save_media_links()
+        return jsonify({'success': True})
+    return jsonify({'success': False})
 
 # Headers de segurança
 @app.after_request
