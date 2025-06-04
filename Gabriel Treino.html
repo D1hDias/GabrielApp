@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
+    <title>Gabriel Fitness - Sistema Offline</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#ff6b35">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Gabriel Fit">
+    
+    <style>
+        :root {
+            --bg-dark: #1a1a1a;
+            --bg-card: #2a2a2a;
+            --bg-card-hover: #353535;
+            --orange-primary: #ff6b35;
+            --orange-hover: #ff8c42;
+            --green-accent: #4ecdc4;
+            --text-light: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #b8b8b8;
+            --border-color: #404040;
+            --shadow-color: rgba(0,0,0,0.4);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #2a2a2a 0%, #404040 100%);
+            border-bottom: 3px solid var(--orange-primary);
+            box-shadow: 0 4px 20px var(--shadow-color);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.8rem;
+            color: var(--orange-primary) !important;
+        }
+
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 0.8rem 1.2rem !important;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--orange-primary) !important;
+            background: rgba(255, 107, 53, 0.2) !important;
+            border-radius: 8px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #323232 100%);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 107, 53, 0.3);
+            border-color: var(--orange-primary);
+            background: linear-gradient(135deg, var(--bg-card-hover) 0%, #3a3a3a 100%);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            color: var(--text-light) !important;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: none;
+            text-align: center;
+            padding: 1.2rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .card-title {
+            color: var(--text-light) !important;
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-text {
+            color: var(--text-secondary) !important;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white !important;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--orange-hover) 0%, #ff9a5a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+            color: white !important;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--green-accent) 0%, #5dd3c8 100%);
+            border: none;
+            border-radius: 25px;
+            color: white !important;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 12px 30px;
+        }
+
+        .btn-outline-primary {
+            border: 2px solid var(--orange-primary);
+            color: var(--orange-primary) !important;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 10px 28px;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--orange-primary) !important;
+            color: white !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(78, 205, 196, 0.15) 100%);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--green-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary) !important;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(78, 205, 196, 0.05) 100%);
+            border: 2px solid rgba(78, 205, 196, 0.4);
+        }
+
+        .exercise-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #404040 100%);
+            border-left: 5px solid var(--orange-primary);
+            margin-bottom: 1rem;
+            padding: 1.2rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .badge-custom {
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            color: white !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .progress-custom {
+            background-color: rgba(255, 107, 53, 0.2);
+            height: 12px;
+            border-radius: 6px;
+        }
+
+        .progress-custom .progress-bar {
+            background: linear-gradient(135deg, var(--orange-primary) 0%, var(--orange-hover) 100%);
+            border-radius: 6px;
+        }
+
+        .muscle-group-icon {
+            font-size: 2.5rem;
+            color: var(--orange-primary);
+            margin-bottom: 1rem;
+        }
+
+        .form-control {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-color);
+            color: var(--text-light);
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1.05rem;
+        }
+
+        .form-control:focus {
+            background-color: var(--bg-card-hover);
+            border-color: var(--orange-primary);
+            color: var(--text-light);
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+        }
+
+        .form-label {
+            color: var(--text-light) !important;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--green-accent);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .toast-notification.show {
+            transform: translateX(0);
+        }
+
+        /* Mobile bottom navigation */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #2a2a2a 0%, #404040 100%);
+            border-top: 2px solid var(--orange-primary);
+            padding: 0.5rem 0 env(safe-area-inset-bottom, 0.5rem);
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .mobile-nav-item {
+            text-align: center;
+            height: var(--bottom-nav-height);
+            position:relative;
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 6px 0 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            display:flex; flex-direction:column;
+            align-items:center; justify-content:center;
+            min-height: 60px;
+            line-height:1;
+        }
+
+        .mobile-nav-item,
+        .mobile-nav-item.active {
+        padding: 6px 0 5px !important;             /* idêntico sempre */
+        border: none   !important;
+        outline:none   !important;
+        }
+
+        .mobile-nav-item:active { transform: none; }
+        
+        .mobile-nav-item:hover,
+        .mobile-nav-item.active {
+            color: var(--orange-primary);
+            background: rgba(255, 107, 53, 0.2);
+            border:none !important;
+            outline:none !important;
+        }
+
+        .mobile-nav-item.active::before {
+            content:'';
+            position:absolute;
+            top:0;
+            left:20%;
+            width:60%;                    /* fica centralizado */
+            height:3px;
+            border-radius:2px 2px 0 0;
+            background:var(--bs-orange, #ff712a); /* sua cor primária */
+        }
+        
+        .mobile-nav-item i {
+        display:block;                /* deixa de ser inline */
+        width :24px;                  /* 24 × 24 px – padrão Android/iOS */
+        height:24px;
+        font-size:24px;               /* força mesmo gabarito em todos */
+        line-height:24px;             /* impede “overflow” vertical      */
+        margin:0 auto 2px;            /* 2 px de respiro antes do <span> */
+        overflow:hidden;              /* corta qualquer sobra do SVG     */
+        }
+
+        .mobile-nav-item span {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 768px) {
+            .mobile-bottom-nav {
+                display: block;
+            }
+            
+            .navbar-collapse {
+                display: none !important;
+            }
+            
+            body {
+                padding-bottom: calc(80px + env(safe-area-inset-bottom,0));
+                /* fallback iOS 11–12 */
+                padding-bottom: calc(80px + constant(safe-area-inset-bottom,0));
+            }
+            
+            .container {
+                margin-bottom: 1rem;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+                line-height: 1.2;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero-section {
+                padding: 1.5rem 1rem;
+                margin: 1rem 0;
+            }
+            
+            .navbar {
+                padding: 0.5rem 0;
+            }
+            
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+            
+            .nav-link {
+                font-size: 0.9rem;
+                padding: 0.6rem 1rem !important;
+            }
+            
+            .card {
+                margin-bottom: 1rem;
+                border-radius: 12px;
+            }
+            
+            .card-header {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.7rem;
+            }
+            
+            .card-text {
+                font-size: 0.95rem;
+            }
+            
+            .btn {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+                margin-bottom: 0.5rem;
+            }
+            
+            .btn-lg {
+                font-size: 1rem;
+                padding: 12px 25px;
+            }
+            
+            .muscle-group-icon {
+                font-size: 2rem;
+            }
+            
+            .exercise-card {
+                padding: 1rem;
+                margin-bottom: 0.8rem;
+                border-radius: 8px;
+            }
+            
+            .badge-custom {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .form-control {
+                font-size: 16px; /* Evita zoom no iOS */
+                padding: 12px 15px;
+            }
+            
+            .form-label {
+                font-size: 1rem;
+            }
+            
+            /* Ajustes específicos para execução de treino */
+            .exercise-item .card-header h4 {
+                font-size: 1.2rem;
+            }
+            
+            .exercise-item .card-body h6 {
+                font-size: 1rem;
+            }
+            
+            .exercise-item .card-body p,
+            .exercise-item .card-body li {
+                font-size: 0.9rem;
+            }
+            
+            /* Progress bar maior no mobile */
+            .progress-custom {
+                height: 15px;
+            }
+            
+            /* Toast notification responsiva */
+            .toast-notification {
+                right: 10px;
+                left: 10px;
+                width: auto;
+                font-size: 0.9rem;
+            }
+            
+            /* Melhora navegação touch */
+            .nav-link, .btn, .card {
+                min-height: 44px; /* Apple recommendation */
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .container {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+            
+            .card-header h3,
+            .card-header h4,
+            .card-header h5 {
+                font-size: 1rem;
+            }
+            
+            .col-6, .col-md-6 {
+                margin-bottom: 1rem;
+            }
+            
+            /* Stack buttons vertically on small screens */
+            .d-grid.gap-2 .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            /* Smaller spacing for very small screens */
+            .mb-3 {
+                margin-bottom: 0.8rem !important;
+            }
+            
+            .mb-4 {
+                margin-bottom: 1rem !important;
+            }
+            
+            .mt-4 {
+                margin-top: 1rem !important;
+            }
+        }
+
+        /* ─── Mobile polish 2025-06-03 ───────────────────────────────────────────── */
+        @media (max-width: 768px) {
+
+        :root { --bottom-nav-height: 60px; }
+
+        /* Bottom-nav 100 % width, colunas iguais  */
+        .mobile-bottom-nav .row { display: flex; margin: 0; }
+        .mobile-bottom-nav .col { flex: 1 1 0; padding: 0; }
+
+        /* Efeito vidro + aceleração GPU */
+        .mobile-bottom-nav {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* Safari */
+            transform: translateZ(0);
+        }
+
+        /* Touch target maior */
+        .mobile-nav-item       { min-height: var(--bottom-nav-height); font-size: .8rem; }
+        .mobile-nav-item  i    { font-size: 1.5rem; }
+        
+        /* Ocultar barra quando teclado estiver aberto */
+        .mobile-bottom-nav[data-hidden="true"] {
+            transform: translateY(100%);
+            transition: transform .25s;
+        }
+        }
+
+        /* ─── Ajustes específicos p/ Safari iOS ────────────────────────── */
+        @supports (-webkit-touch-callout: none) {
+
+        /* 100 vh bug / barras inferior-superior Dinâmicas */
+        body { min-height: 100dvh; -webkit-overflow-scrolling: touch; }
+
+        /* Bottom nav: respeita área segura em TODOS os iPhones */
+        .mobile-bottom-nav {
+            padding-bottom: calc(env(safe-area-inset-bottom,0) + .5rem);
+            /* fallback p/ iOS 11–12 */
+            padding-bottom: calc(constant(safe-area-inset-bottom,0) + .5rem);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            contain: paint;          /* evita “jitter” do fixed */
+            transform: translateZ(0);/* aceleração GPU */
+        }
+
+        /* Navbar fixo sem ‘tremido’ no scroll */
+        .navbar { contain: paint; transform: translateZ(0); }
+
+        /* Desativa zoom automático em inputs < 16 px */
+        input, select, textarea { font-size: 16px; }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showPage('home')">
+                🏋️ Gabriel
+            </a>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showPage('home')">
+                            <i class="bi bi-house-fill"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showPage('treinos')">
+                            <i class="bi bi-calendar-week"></i> Treinos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showPage('grupos')">
+                            <i class="bi bi-diagram-3"></i> Grupos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showPage('historico')">
+                            <i class="bi bi-graph-up"></i> Histórico
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showPage('estatisticas')">
+                            <i class="bi bi-bar-chart-fill"></i> Stats
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="container my-4">
+        
+        <!-- Página Inicial -->
+        <div id="home" class="page active">
+            <div class="hero-section">
+                <h1 class="hero-title">💪 Bora Treinar, Gabriel!</h1>
+                <p class="hero-subtitle">
+                    Seu sistema personalizado de treinos está pronto para te levar ao próximo nível! 🔥
+                </p>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8">
+                        <!-- Mobile: Botões empilhados -->
+                        <div class="d-md-none">
+                            <button class="btn btn-primary btn-lg w-100 mb-3" onclick="showPage('treinos')">
+                                <i class="bi bi-play-fill"></i> Iniciar Treino
+                            </button>
+                            <button class="btn btn-outline-primary btn-lg w-100" onclick="showPage('estatisticas')">
+                                <i class="bi bi-graph-up"></i> Ver Progresso
+                            </button>
+                        </div>
+                        
+                        <!-- Desktop: Botões lado a lado -->
+                        <div class="d-none d-md-block">
+                            <button class="btn btn-primary btn-lg me-3" onclick="showPage('treinos')">
+                                <i class="bi bi-play-fill"></i> Iniciar Treino
+                            </button>
+                            <button class="btn btn-outline-primary btn-lg" onclick="showPage('estatisticas')">
+                                <i class="bi bi-graph-up"></i> Ver Progresso
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="row mb-4">
+                <div class="col-6 col-md-3 mb-3">
+                    <div class="card stats-card h-100">
+                        <div class="card-body text-center p-3">
+                            <i class="bi bi-calendar-week" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                            <h6 class="card-title mt-1 mb-0">6 Meses</h6>
+                            <small class="card-text text-muted">Programa</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-3">
+                    <div class="card stats-card h-100">
+                        <div class="card-body text-center p-3">
+                            <i class="bi bi-trophy" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                            <h6 class="card-title mt-1 mb-0">144 Treinos</h6>
+                            <small class="card-text text-muted">6x/semana</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-3">
+                    <div class="card stats-card h-100">
+                        <div class="card-body text-center p-3">
+                            <i class="bi bi-lightning-fill" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                            <h6 class="card-title mt-1 mb-0">Progressivo</h6>
+                            <small class="card-text text-muted">Evolução</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 mb-3">
+                    <div class="card stats-card h-100">
+                        <div class="card-body text-center p-3">
+                            <i class="bi bi-graph-up" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                            <h6 class="card-title mt-1 mb-0">Trackável</h6>
+                            <small class="card-text text-muted">Histórico</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plano dos 6 Meses -->
+            <div class="row" id="meses-cards">
+                <!-- Será preenchido pelo JavaScript -->
+            </div>
+        </div>
+
+        <!-- Página de Treinos -->
+        <div id="treinos" class="page">
+            <div class="hero-section">
+                <h1 class="hero-title">🏃‍♂️ Seus Treinos</h1>
+                <p class="hero-subtitle">Escolha seu treino e bora quebrar tudo!</p>
+            </div>
+            <div id="treinos-content">
+                <!-- Será preenchido pelo JavaScript -->
+            </div>
+        </div>
+
+        <!-- Página de Grupos -->
+        <div id="grupos" class="page">
+            <div class="hero-section">
+                <h1 class="hero-title">💪 Grupos Musculares</h1>
+                <p class="hero-subtitle">Veja todos os treinos organizados por músculos trabalhados</p>
+            </div>
+            <div id="grupos-content">
+                <!-- Será preenchido pelo JavaScript -->
+            </div>
+        </div>
+
+        <!-- Página de Histórico -->
+        <div id="historico" class="page">
+            <div class="hero-section">
+                <h1 class="hero-title">📈 Seu Histórico</h1>
+                <p class="hero-subtitle">Acompanhe toda sua evolução, Gabriel!</p>
+            </div>
+            <div id="historico-content">
+                <!-- Será preenchido pelo JavaScript -->
+            </div>
+        </div>
+
+        <!-- Página de Estatísticas -->
+        <div id="estatisticas" class="page">
+            <div class="hero-section">
+                <h1 class="hero-title">📊 Suas Estatísticas</h1>
+                <p class="hero-subtitle">Veja todo seu progresso, campeão!</p>
+            </div>
+            <div id="estatisticas-content">
+                <!-- Será preenchido pelo JavaScript -->
+            </div>
+        </div>
+
+        <!-- Página de Execução de Treino -->
+        <div id="executar-treino" class="page">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3 id="treino-nome">🔥 Treino</h3>
+                    <p class="mb-0" id="treino-grupo">Grupo Muscular</p>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <!-- Progress Bar -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5>📈 Progresso do Treino</h5>
+                            <div class="progress-custom progress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%" id="progress-bar">
+                                    <span id="progress-text">0%</span>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <span id="exercise-counter">Exercício 1 de X</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exercise Container -->
+                    <div id="exercises-container">
+                        <!-- Será preenchido pelo JavaScript -->
+                    </div>
+
+                    <!-- Final Card -->
+                    <div class="card" id="final-card" style="display: none;">
+                        <div class="card-header text-center">
+                            <h3>🎉 Treino Finalizado!</h3>
+                        </div>
+                        <div class="card-body text-center">
+                            <h4 style="color: var(--green-accent);">Parabéns, Gabriel! 🔥</h4>
+                            <p>Mais um treino completo no seu histórico!</p>
+                            <div id="resumo-treino" class="mt-4"></div>
+                            <div class="mt-4">
+                                <button class="btn btn-primary me-2" onclick="showPage('treinos')">
+                                    <i class="bi bi-arrow-left"></i> Voltar aos Treinos
+                                </button>
+                                <button class="btn btn-outline-primary" onclick="showPage('estatisticas')">
+                                    <i class="bi bi-graph-up"></i> Ver Estatísticas
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <a href="#" class="mobile-nav-item" onclick="showPage('home')">
+                        <i class="bi bi-house-fill"></i>
+                        <span>Início</span>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="mobile-nav-item" onclick="showPage('treinos')">
+                        <i class="bi bi-calendar-week"></i>
+                        <span>Treinos</span>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="mobile-nav-item" onclick="showPage('grupos')">
+                        <i class="bi bi-diagram-3"></i>
+                        <span>Grupos</span>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="mobile-nav-item" onclick="showPage('historico')">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Histórico</span>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="#" class="mobile-nav-item" onclick="showPage('estatisticas')">
+                        <i class="bi bi-bar-chart-fill"></i>
+                        <span>Stats</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // DADOS DOS TREINOS (todos os 6 meses)
+        const workoutsData = {
+            "mes_1": {
+                "nome": "Fundação Funcional",
+                "objetivo": "Estabelecer base de força, estabilidade articular e mobilidade",
+                "semanas": [1, 2, 3, 4],
+                "treinos": {
+                    "segunda": {
+                        "nome": "Treino A - Inferiores (Força Explosiva)",
+                        "grupo_muscular": "Pernas e Glúteos",
+                        "exercicios": [
+                            {"nome": "Agachamento Livre", "series": 4, "reps": "4-6", "descanso": "90-120s", "observacao": "85-90% 1RM", "dica": "Mantenha o core contraído e desça até 90°"},
+                            {"nome": "Levantamento Terra Trap Bar", "series": 4, "reps": "4-6", "descanso": "90s", "observacao": "RPE 8", "dica": "Ombros para trás, barra próxima ao corpo"},
+                            {"nome": "Leg Press", "series": 3, "reps": "8-10", "descanso": "60s", "observacao": "RPE 7", "dica": "Desça controlado, não trave totalmente os joelhos"},
+                            {"nome": "Cadeira Extensora Unilateral", "series": 3, "reps": "10-12", "descanso": "45s", "dica": "Foque na contração no topo do movimento"},
+                            {"nome": "Panturrilha em Pé", "series": 3, "reps": "12-15", "descanso": "45s", "dica": "Amplitude máxima, pausa no topo"}
+                        ]
+                    },
+                    "terca": {
+                        "nome": "Treino B - Superiores (Força e Estabilidade)",
+                        "grupo_muscular": "Peito, Costas e Ombros",
+                        "exercicios": [
+                            {"nome": "Supino Reto com Barra", "series": 4, "reps": "4-6", "descanso": "90s", "observacao": "85-90% 1RM", "dica": "Escápulas retraídas, barra na linha do mamilo"},
+                            {"nome": "Puxada Frontal", "series": 4, "reps": "6-8", "descanso": "60s", "observacao": "RPE 8", "dica": "Puxe com os cotovelos, foque nos dorsais"},
+                            {"nome": "Desenvolvimento com Halteres", "series": 3, "reps": "8-10", "descanso": "60s", "dica": "Amplitude completa, core estabilizado"},
+                            {"nome": "Remada Unilateral", "series": 3, "reps": "10-12", "descanso": "60s", "dica": "Puxe o cotovelo para trás, aperte a escápula"},
+                            {"nome": "Prancha Abdominal", "series": 3, "reps": "30-45s", "descanso": "30s", "dica": "Corpo alinhado, respiração controlada"}
+                        ]
+                    },
+                    "quarta": {
+                        "nome": "Treino Complementar - Resistência e Agilidade",
+                        "grupo_muscular": "Cardio e Condicionamento",
+                        "exercicios": [
+                            {"nome": "Circuito de cones", "series": 3, "reps": "1 volta", "descanso": "60s", "dica": "Troque direção rapidamente"},
+                            {"nome": "Tiros de 30m", "series": 6, "reps": "1 tiro", "descanso": "incompleto", "dica": "Máxima velocidade"},
+                            {"nome": "Bike ergométrica Z2", "series": 1, "reps": "20 min", "descanso": "0s", "dica": "Zona 2: ritmo moderado"}
+                        ]
+                    },
+                    "quinta": {
+                        "nome": "Core, Mobilidade e Prevenção",
+                        "grupo_muscular": "Core e Mobilidade",
+                        "exercicios": [
+                            {"nome": "Prancha Lateral com Elevação", "series": 3, "reps": "30s por lado", "descanso": "30s", "dica": "Quadril alinhado"},
+                            {"nome": "Glute Bridge Unilateral", "series": 3, "reps": "12", "descanso": "45s", "dica": "Aperte o glúteo no topo"},
+                            {"nome": "Mobilidade de Quadril/Tornozelo", "series": 1, "reps": "10 min", "descanso": "0s", "dica": "Movimentos lentos"},
+                            {"nome": "Alongamento Dinâmico", "series": 1, "reps": "10 min", "descanso": "0s", "dica": "Aquecimento progressivo"}
+                        ]
+                    },
+                    "sexta": {
+                        "nome": "Treino A - Inferiores (Potência e Controle)",
+                        "grupo_muscular": "Pernas e Potência",
+                        "exercicios": [
+                            {"nome": "Box Jump", "series": 4, "reps": "5", "descanso": "60s", "dica": "Aterrissagem suave"},
+                            {"nome": "Afundo com Halteres", "series": 3, "reps": "8-10", "descanso": "60s", "dica": "Joelho não passa da ponta do pé"},
+                            {"nome": "Cadeira Flexora", "series": 3, "reps": "10-12", "descanso": "60s", "dica": "Controle o excêntrico"},
+                            {"nome": "Gêmeos Sentado", "series": 3, "reps": "15", "descanso": "45s", "dica": "Muitas repetições"}
+                        ]
+                    },
+                    "sabado": {
+                        "nome": "Jogo / Futebol Competitivo",
+                        "grupo_muscular": "Esporte",
+                        "exercicios": [
+                            {"nome": "Futebol - Jogo Completo", "series": 1, "reps": "90 min", "descanso": "0s", "dica": "Hidratação constante"}
+                        ]
+                    }
+                }
+            },
+            "mes_2": {
+                "nome": "Força Funcional e Controle",
+                "objetivo": "Aumentar força máxima e controle motor, iniciando variações unilaterais e foco em estabilidade",
+                "semanas": [5, 6, 7, 8],
+                "treinos": {
+                    "segunda": {
+                        "nome": "Treino A - Inferiores (Força com Estabilidade)",
+                        "grupo_muscular": "Pernas e Estabilidade",
+                        "exercicios": [
+                            {"nome": "Agachamento Búlgaro", "series": 3, "reps": "8 (cada perna)", "descanso": "60s", "observacao": "RPE 8", "dica": "Mantenha equilíbrio, desça controlado"},
+                            {"nome": "Levantamento Terra Romeno com Halteres", "series": 3, "reps": "10", "descanso": "60s", "observacao": "RPE 7", "dica": "Quadril para trás, costas retas"},
+                            {"nome": "Avanço na Barra Guiada", "series": 3, "reps": "10", "descanso": "60s", "dica": "Passo firme, não bater o joelho no chão"},
+                            {"nome": "Elevação de Gêmeos Unilateral", "series": 3, "reps": "12", "descanso": "45s", "dica": "Uma perna de cada vez, amplitude máxima"}
+                        ]
+                    },
+                    "terca": {
+                        "nome": "Treino B - Superiores (Força e Coordenação)",
+                        "grupo_muscular": "Peito, Costas e Coordenação",
+                        "exercicios": [
+                            {"nome": "Supino Inclinado com Halteres", "series": 4, "reps": "8", "descanso": "60s", "observacao": "RPE 8", "dica": "Halteres descendo na linha do peito superior"},
+                            {"nome": "Remada Curvada", "series": 3, "reps": "8", "descanso": "60s", "observacao": "RPE 8", "dica": "Tronco inclinado, puxe cotovelos para trás"},
+                            {"nome": "Elevação Lateral + Desenvolvimento (Combo)", "series": 3, "reps": "10", "descanso": "60s", "dica": "Laterais primeiro, depois desenvolvimento"},
+                            {"nome": "Puxada na Polia Inversa", "series": 3, "reps": "10-12", "descanso": "60s", "dica": "Pegada invertida, foque nos bíceps"},
+                            {"nome": "Prancha com Remada (Renegade Row)", "series": 3, "reps": "10", "dica": "Posição de prancha, reme alternando braços"}
+                        ]
+                    },
+                    "quarta": {
+                        "nome": "Treino Complementar - HIIT e Coordenação",
+                        "grupo_muscular": "Cardio e Agilidade",
+                        "exercicios": [
+                            {"nome": "Corridas curtas com mudança de direção", "series": 6, "reps": "20m", "descanso": "45s", "dica": "Mudanças bruscas de direção"},
+                            {"nome": "Circuito em escada de agilidade", "series": 3, "reps": "1 round", "descanso": "60s", "dica": "Pés rápidos, coordenação"},
+                            {"nome": "HIIT na esteira ou bike", "series": 10, "reps": "30s/30s", "descanso": "30s", "dica": "30s forte, 30s leve"}
+                        ]
+                    },
+                    "quinta": {
+                        "nome": "Core, Mobilidade e Estabilidade",
+                        "grupo_muscular": "Core e Mobilidade",
+                        "exercicios": [
+                            {"nome": "Prancha Frontal com Toque de Ombros", "series": 3, "reps": "30s", "descanso": "30s", "dica": "Toque ombros alternadamente"},
+                            {"nome": "Dead Bug", "series": 3, "reps": "10 cada lado", "descanso": "45s", "dica": "Core estabilizado, braço e perna opostos"},
+                            {"nome": "Mobilidade de Ombro e Quadril", "series": 1, "reps": "10 min", "descanso": "0s", "dica": "Movimentos amplos e controlados"},
+                            {"nome": "Liberação Miofascial", "series": 1, "reps": "10 min", "descanso": "0s", "dica": "Foam roller nos músculos tensos"}
+                        ]
+                    },
+                    "sexta": {
+                        "nome": "Treino A - Pliometria e Controle Excêntrico",
+                        "grupo_muscular": "Potência e Controle",
+                        "exercicios": [
+                            {"nome": "Salto Unilateral Alternado", "series": 3, "reps": "8 cada perna", "descanso": "60s", "dica": "Saltos explosivos, uma perna"},
+                            {"nome": "Afundo com Pausa (3s excêntrico)", "series": 3, "reps": "10", "descanso": "60s", "dica": "Desça em 3 segundos, pause 1s"},
+                            {"nome": "Mesa Flexora", "series": 3, "reps": "10", "descanso": "60s", "dica": "Controle a descida do peso"},
+                            {"nome": "Elevação de Panturrilhas com Halteres", "series": 3, "reps": "12", "dica": "Halteres nas mãos, amplitude máxima"}
+                        ]
+                    },
+                    "sabado": {
+                        "nome": "Jogo ou Treino Técnico",
+                        "grupo_muscular": "Esporte",
+                        "exercicios": [
+                            {"nome": "Futebol - Treino Técnico", "series": 1, "reps": "60-90 min", "descanso": "0s", "dica": "Foque na técnica, não só no físico"}
+                        ]
+                    }
+                }
+            },
+            "mes_3": {
+                "nome": "Potência e Transferência Esportiva",
+                "objetivo": "Desenvolver potência e explosão muscular com foco na transferência para o futebol",
+                "semanas": [9, 10, 11, 12],
+                "treinos": {
+                    "segunda": {
+                        "nome": "Treino A - Pliometria + Força Inferior",
+                        "grupo_muscular": "Pernas e Explosão",
+                        "exercicios": [
+                            {"nome": "Saltos Verticais com Peso", "series": 3, "reps": "5", "descanso": "90s", "dica": "Peso leve, salto máximo"},
+                            {"nome": "Agachamento Frontal", "series": 4, "reps": "6", "descanso": "90s", "observacao": "RPE 8", "dica": "Barra na frente, cotovelos altos"},
+                            {"nome": "Passada com Salto", "series": 3, "reps": "8", "descanso": "60s", "dica": "Passo grande + salto explosivo"},
+                            {"nome": "Gêmeos Explosivo em Pé", "series": 3, "reps": "12", "descanso": "45s", "dica": "Subida explosiva, descida controlada"}
+                        ]
+                    },
+                    "terca": {
+                        "nome": "Treino B - Superiores Explosivo",
+                        "grupo_muscular": "Peito, Costas e Explosão",
+                        "exercicios": [
+                            {"nome": "Supino com Explosão (Speed Bench)", "series": 4, "reps": "5", "descanso": "90s", "dica": "Subida explosiva, carga 60-70%"},
+                            {"nome": "Pull-up com Impulso", "series": 3, "reps": "6", "descanso": "90s", "dica": "Use impulso para passar da barra"},
+                            {"nome": "Arremesso de Bola Medicinal", "series": 3, "reps": "10", "descanso": "60s", "dica": "Arremesso explosivo do peito"},
+                            {"nome": "Core Dinâmico (Cable Rotation)", "series": 3, "reps": "12", "descanso": "45s", "dica": "Rotação rápida do tronco"}
+                        ]
+                    },
+                    "quarta": {
+                        "nome": "Recuperação Ativa + Mobilidade",
+                        "grupo_muscular": "Recuperação",
+                        "exercicios": [
+                            {"nome": "Alongamentos Ativos", "series": 1, "reps": "15 min", "descanso": "0s", "dica": "Movimentos amplos, sem dor"},
+                            {"nome": "Alongamentos Estáticos", "series": 1, "reps": "15 min", "descanso": "0s", "dica": "Hold 30s cada posição"},
+                            {"nome": "Liberação Miofascial", "series": 1, "reps": "10 min", "descanso": "0s", "dica": "Foam roller, pontos doloridos"}
+                        ]
+                    },
+                    "quinta": {
+                        "nome": "Treino C - Full Body Contrast",
+                        "grupo_muscular": "Corpo Todo - Contraste",
+                        "exercicios": [
+                            {"nome": "Agachamento + Salto (Complexo)", "series": 3, "reps": "5", "descanso": "90s", "dica": "5 agachamentos + 5 saltos"},
+                            {"nome": "Terra + Sprint Curto", "series": 3, "reps": "3 rounds", "descanso": "90s", "dica": "3 terras + sprint 20m"},
+                            {"nome": "Supino + Flexão Explosiva", "series": 3, "reps": "5 cada", "descanso": "90s", "dica": "5 supinos + 5 flexões explosivas"},
+                            {"nome": "Prancha com Instabilidade", "series": 3, "reps": "30s", "descanso": "45s", "dica": "Prancha em superfície instável"}
+                        ]
+                    },
+                    "sexta": {
+                        "nome": "Treino Complementar - HIIT + Agilidade",
+                        "grupo_muscular": "Cardio e Velocidade",
+                        "exercicios": [
+                            {"nome": "Sprint 10-20-30m", "series": 3, "reps": "cada distância", "descanso": "60s", "dica": "Máxima velocidade em cada"},
+                            {"nome": "Zig-Zag em cones", "series": 4, "reps": "1 volta", "descanso": "45s", "dica": "Mudanças rápidas de direção"},
+                            {"nome": "Bike HIIT", "series": 10, "reps": "20s/40s", "descanso": "40s", "dica": "20s forte, 40s leve"}
+                        ]
+                    },
+                    "sabado": {
+                        "nome": "Jogo / Futebol Competitivo",
+                        "grupo_muscular": "Esporte",
+                        "exercicios": [
+                            {"nome": "Futebol - Jogo Completo", "series": 1, "reps": "90 min", "descanso": "0s", "dica": "Aplique toda explosão treinada"}
+                        ]
+                    }
+                }
+            },
+            "mes_4": {
+                "nome": "Hipertrofia Funcional Controlada",
+                "objetivo": "Ganho controlado de massa muscular magra com preservação da mobilidade e leveza corporal",
+                "semanas": [13, 14, 15, 16],
+                "treinos": {
+                    "segunda": {
+                        "nome": "Treino A - Inferiores Funcional",
+                        "grupo_muscular": "Pernas - Hipertrofia",
+                        "exercicios": [
+                            {"nome": "Agachamento com Halteres", "series": 3, "reps": "12", "descanso": "60s", "dica": "Halteres nas mãos, amplitude total"},
+                            {"nome": "Cadeira Flexora Unilateral", "series": 3, "reps": "12", "descanso": "60s", "dica": "Uma perna de cada vez"},
+                            {"nome": "Leg Press com Pausa", "series": 3, "reps": "10", "descanso": "60s", "dica": "Pause 2s na posição baixa"},
+                            {"nome": "Panturrilha no Leg", "series": 3, "reps": "20", "descanso": "45s", "dica": "Alto volume para hipertrofia"}
+                        ]
+                    },
+                    "terca": {
+                        "nome": "Treino B - Superiores (Resistência e Volume)",
+                        "grupo_muscular": "Peito, Costas - Hipertrofia",
+                        "exercicios": [
+                            {"nome": "Supino com Halteres", "series": 3, "reps": "12", "descanso": "60s", "dica": "Amplitude máxima, halteres"},
+                            {"nome": "Puxada com Pegada Neutra", "series": 3, "reps": "12", "descanso": "60s", "dica": "Pegada paralela, foque dorsais"},
+                            {"nome": "Desenvolvimento", "series": 3, "reps": "10", "descanso": "60s", "dica": "Desenvolvimento militar ou halteres"},
+                            {"nome": "Remada Máquina", "series": 3, "reps": "12", "descanso": "60s", "dica": "Aperte escápulas no final"},
+                            {"nome": "Prancha com Peso", "series": 3, "reps": "30s", "descanso": "45s", "dica": "Anilha nas costas"}
+                        ]
+                    },
+                    "sabado": {
+                        "nome": "Jogo ou Técnica Esportiva",
+                        "grupo_muscular": "Esporte",
+                        "exercicios": [
+                            {"nome": "Futebol - Treino Técnico", "series": 1, "reps": "60-90 min", "descanso": "0s", "dica": "Foque na qualidade dos movimentos"}
+                        ]
+                    }
+                }
+            },
+            "mes_5": {
+                "nome": "Integração e Potencialização Atlética",
+                "objetivo": "Combinar força, potência, velocidade e resistência com foco em performance esportiva",
+                "semanas": [17, 18, 19, 20],
+                "treinos": {
+                    "segunda": {
+                        "nome": "Treino A - Força e Potência Inferior",
+                        "grupo_muscular": "Pernas - Potência Integrada",
+                        "exercicios": [
+                            {"nome": "Trap Bar Jump", "series": 3, "reps": "5", "descanso": "90s", "dica": "Salto explosivo com trap bar"},
+                            {"nome": "Agachamento Frontal", "series": 3, "reps": "6", "descanso": "90s", "dica": "Barra na frente, core ativo"},
+                            {"nome": "Afundo Explosivo", "series": 3, "reps": "8", "descanso": "60s", "dica": "Subida explosiva do afundo"},
+                            {"nome": "Panturrilha em Unilateral", "series": 3, "reps": "15", "descanso": "45s", "dica": "Uma perna, foque no equilíbrio"}
+                        ]
+                    },
+                    "terca": {
+                        "nome": "Treino B - Superiores Atléticos",
+                        "grupo_muscular": "Peito, Costas - Performance",
+                        "exercicios": [
+                            {"nome": "Supino Rápido", "series": 4, "reps": "5", "descanso": "90s", "dica": "Velocidade máxima na subida"},
+                            {"nome": "Puxada Alternada", "series": 3, "reps": "8", "descanso": "60s", "dica": "Varie pegadas a cada série"},
+                            {"nome": "Arremesso com Bola Medicinal", "series": 3, "reps": "10", "descanso": "60s", "dica": "Explosão máxima do peito"},
+                            {"nome": "Remada Alta", "series": 3, "reps": "10", "descanso": "60s", "dica": "Cotovelos altos, trapézio"}
+                        ]
+                    },
+                    "quarta": {
+                        "nome": "Treino C - Core, Equilíbrio e Mobilidade",
+                        "grupo_muscular": "Core e Estabilidade",
+                        "exercicios": [
+                            {"nome": "Prancha com Bola Bosu", "series": 3, "reps": "30s", "descanso": "45s", "dica": "Mãos na bosu, instabilidade"},
+                            {"nome": "Russian Twist", "series": 3, "reps": "20", "descanso": "45s", "dica": "Pés suspensos, rotação do tronco"},
+                            {"nome": "Skater Squats", "series": 3, "reps": "10 cada lado", "descanso": "60s", "dica": "Agachamento lateral unilateral"},
+                            {"nome": "Mobilidade de Quadril", "series": 1, "reps": "15 min", "descanso": "0s", "dica": "Amplitude máxima, sem dor"}
+                        ]
+                    },
+                    "quinta": {
+                        "nome": "Treino A - Força e Potência Inferior",
+                        "grupo_muscular": "Pernas - Potência Integrada",
+                        "exercicios": [
+                            {"nome": "Trap Bar Jump", "series": 3, "reps": "5", "descanso": "90s", "dica": "Repita com mesma intensidade"},
+                            {"nome": "Agachamento Frontal", "series": 3, "reps": "6", "descanso": "90s", "dica": "Mantenha postura ereta"},
+                            {"nome": "Afundo Explosivo", "series": 3, "reps": "8", "descanso": "60s", "dica": "Explosão máxima na subida"},
+                            {"nome": "Panturrilha em Unilateral", "series": 3, "reps": "15", "descanso": "45s", "dica": "Equilíbrio e força"}
+                        ]
+                    },
+                    "sexta": {
+                        "nome": "Treino B - Superiores Atléticos",
+                        "grupo_muscular": "Peito, Costas - Performance",
+                        "exercicios": [
+                            {"nome": "Supino Rápido", "series": 4, "reps": "5", "descanso": "90s", "dica": "Velocidade constante"},
+                            {"nome": "Puxada Alternada", "series": 3, "reps": "8", "descanso": "60s", "dica": "Pegadas diferentes"},
+                            {"nome": "Arremesso com Bola Medicinal", "series": 3, "reps": "10", "descanso": "60s", "dica": "Potência explosiva"},
+                            {"nome": "Remada Alta", "series": 3, "reps": "10", "descanso": "60s", "dica": "Trapézio superior"}
+                        ]
+                    },
+                    "sabado": {
+                        "nome": "Jogo / Futebol Competitivo",
+                        "grupo_muscular": "Esporte",
+                        "exercicios": [
+                            {"nome": "Futebol - Jogo Completo", "series": 1, "reps": "90 min", "descanso": "0s", "dica": "Aplique toda integração treinada"}
+                        ]
+                    }
+                }
+            },
+            "mes_6": {
+                "nome": "Polimento Final e Otimização Funcional",
+                "objetivo": "Consolidar ganhos, reduzir volume, manter intensidade e maximizar prontidão para performance",
+                "semanas": [21, 22, 23, 24],
+                "treinos": {
+                    "segunda": {
+                        "nome": "Treino A - Full Body Funcional (Carga Média)",
+                        "grupo_muscular": "Corpo Todo - Polimento",
+                        "exercicios": [
+                            {"nome": "Agachamento", "series": 3, "reps": "6", "descanso": "90s", "dica": "Carga média, técnica perfeita"},
+                            {"nome": "Supino", "series": 3, "reps": "6", "descanso": "90s", "dica": "Foque na qualidade do movimento"},
+                            {"nome": "Terra", "series": 3, "reps": "6", "descanso": "90s", "dica": "Levantamento terra clássico"},
+                            {"nome": "Core com Peso", "series": 3, "reps": "10", "descanso": "60s", "dica": "Mantenha core estável"}
+                        ]
+                    },
+                    "terca": {
+                        "nome": "Treino B - Pliometria + Técnica",
+                        "grupo_muscular": "Potência e Técnica",
+                        "exercicios": [
+                            {"nome": "Saltos Curtos", "series": 3, "reps": "5", "descanso": "90s", "dica": "Qualidade sobre quantidade"},
+                            {"nome": "Arranque com Bola Medicinal", "series": 3, "reps": "10", "descanso": "60s", "dica": "Movimento olímpico adaptado"},
+                            {"nome": "Sprint com Foco Técnico", "series": 3, "reps": "20m", "descanso": "90s", "dica": "Técnica de corrida perfeita"},
+                            {"nome": "Mobilidade e Alongamento", "series": 1, "reps": "15 min", "descanso": "0s", "dica": "Prepare o corpo para performance"}
+                        ]
+                    },
+                    "quarta": {
+                        "nome": "Regeneração e Prevenção",
+                        "grupo_muscular": "Recuperação",
+                        "exercicios": [
+                            {"nome": "Liberação Miofascial", "series": 1, "reps": "20 min", "descanso": "0s", "dica": "Foam roller completo"},
+                            {"nome": "Alongamento Passivo", "series": 1, "reps": "20 min", "descanso": "0s", "dica": "Relaxe e respire"},
+                            {"nome": "Exercícios Respiratórios", "series": 1, "reps": "10 min", "descanso": "0s", "dica": "Controle da respiração"}
+                        ]
+                    },
+                    "quinta": {
+                        "nome": "Treino A - Full Body Funcional (Carga Média)",
+                        "grupo_muscular": "Corpo Todo - Polimento",
+                        "exercicios": [
+                            {"nome": "Agachamento", "series": 3, "reps": "6", "descanso": "90s", "dica": "Mesma intensidade do segunda"},
+                            {"nome": "Supino", "series": 3, "reps": "6", "descanso": "90s", "dica": "Técnica impecável"},
+                            {"nome": "Terra", "series": 3, "reps": "6", "descanso": "90s", "dica": "Força e controle"},
+                            {"nome": "Core com Peso", "series": 3, "reps": "10", "descanso": "60s", "dica": "Estabilidade final"}
+                        ]
+                    },
+                    "sexta": {
+                        "nome": "Treino B - Pliometria + Técnica",
+                        "grupo_muscular": "Potência e Técnica",
+                        "exercicios": [
+                            {"nome": "Saltos Curtos", "series": 3, "reps": "5", "descanso": "90s", "dica": "Máxima qualidade"},
+                            {"nome": "Arranque com Bola Medicinal", "series": 3, "reps": "10", "descanso": "60s", "dica": "Explosão técnica"},
+                            {"nome": "Sprint com Foco Técnico", "series": 3, "reps": "20m", "descanso": "90s", "dica": "Perfeição na corrida"},
+                            {"nome": "Mobilidade e Alongamento", "series": 1, "reps": "15 min", "descanso": "0s", "dica": "Finalize com qualidade"}
+                        ]
+                    },
+                    "sabado": {
+                        "nome": "Jogo / Futebol Competitivo",
+                        "grupo_muscular": "Esporte",
+                        "exercicios": [
+                            {"nome": "Futebol - Performance Máxima", "series": 1, "reps": "90 min", "descanso": "0s", "dica": "Mostre toda evolução dos 6 meses!"}
+                        ]
+                    }
+                }
+            }
+        };
+
+        // SISTEMA DE ARMAZENAMENTO LOCAL
+        function saveToStorage(key, data) {
+            localStorage.setItem('gabriel_fitness_' + key, JSON.stringify(data));
+        }
+
+        function loadFromStorage(key, defaultValue = []) {
+            const data = localStorage.getItem('gabriel_fitness_' + key);
+            return data ? JSON.parse(data) : defaultValue;
+        }
+
+        // VARIÁVEIS GLOBAIS
+        let currentPage = 'home';
+        let workoutHistory = loadFromStorage('history');
+        let currentWorkout = null;
+        let currentExerciseIndex = 0;
+        let workoutStartTime = null;
+
+        // NAVEGAÇÃO ENTRE PÁGINAS
+        function showPage(pageName) {
+            // Esconder todas as páginas
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Remover active dos nav links (desktop)
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Remover active dos nav links (mobile)
+            document.querySelectorAll('.mobile-nav-item').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Mostrar página solicitada
+            document.getElementById(pageName).classList.add('active');
+
+            // Adicionar active ao nav link (desktop)
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.onclick && link.onclick.toString().includes(pageName)) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Adicionar active ao nav link (mobile)
+            document.querySelectorAll('.mobile-nav-item').forEach(link => {
+                if (link.onclick && link.onclick.toString().includes(pageName)) {
+                    link.classList.add('active');
+                }
+            });
+
+            currentPage = pageName;
+
+            // Carregar conteúdo da página
+            loadPageContent(pageName);
+
+            // Scroll para o topo
+            window.scrollTo(0, 0);
+        }
+
+        // ─── UX mobile: esconde a bottom-nav quando o teclado virtual aparece ───
+        (() => {
+        const bottomNav = document.querySelector('.mobile-bottom-nav');
+        if (!bottomNav) return;
+
+        const hide = () => bottomNav.setAttribute('data-hidden', 'true');
+        const show  = () => bottomNav.removeAttribute('data-hidden');
+
+        // Chrome/ Safari mobile disparam focusin/out em inputs
+        window.addEventListener('focusin', e => {
+            if (e.target.matches('input, textarea, [contenteditable]')) hide();
+        });
+        window.addEventListener('focusout', show);
+
+        // Fallback via visualViewport (Android 12+, iOS 15+)
+        if (window.visualViewport) {
+            const onResize = () => {
+            const kbOpen = window.innerHeight > visualViewport.height + 80;
+            bottomNav.toggleAttribute('data-hidden', kbOpen);
+            };
+            visualViewport.addEventListener('resize', onResize);
+        }
+        })();
+
+        // CARREGAR CONTEÚDO DAS PÁGINAS
+        function loadPageContent(pageName) {
+            switch(pageName) {
+                case 'home':
+                    loadHomePage();
+                    break;
+                case 'treinos':
+                    loadTreinosPage();
+                    break;
+                case 'grupos':
+                    loadGruposPage();
+                    break;
+                case 'historico':
+                    loadHistoricoPage();
+                    break;
+                case 'estatisticas':
+                    loadEstatisticasPage();
+                    break;
+            }
+        }
+
+        // PÁGINA INICIAL
+        function loadHomePage() {
+            const mesesContainer = document.getElementById('meses-cards');
+            let html = '';
+
+            Object.entries(workoutsData).forEach(([mesKey, mesData]) => {
+                html += `
+                    <div class="col-12 col-md-6 col-lg-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header text-center">
+                                <h5 class="mb-1">
+                                    ${mesKey.replace('mes_', 'Mês ')} 
+                                </h5>
+                                <small class="text-light">${mesData.nome}</small>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">${mesData.objetivo}</p>
+                                
+                                <!-- Mobile: Layout simplificado -->
+                                <div class="d-md-none">
+                                    <div class="row text-center mb-3">
+                                        <div class="col-6">
+                                            <small class="text-muted">Semanas</small>
+                                            <div><strong>${mesData.semanas[0]}-${mesData.semanas[mesData.semanas.length-1]}</strong></div>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="text-muted">Treinos</small>
+                                            <div><strong>${Object.keys(mesData.treinos).length}/semana</strong></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Desktop: Layout detalhado -->
+                                <div class="d-none d-md-block">
+                                    <div class="mb-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar-range"></i> 
+                                            Semanas ${mesData.semanas[0]}-${mesData.semanas[mesData.semanas.length-1]}
+                                        </small>
+                                    </div>
+                                    <div class="mb-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-list-check"></i> 
+                                            ${Object.keys(mesData.treinos).length} treinos por semana
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-outline-primary w-100" onclick="showPage('treinos')">
+                                    <i class="bi bi-eye"></i> <span class="d-none d-sm-inline">Ver </span>Treinos
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            mesesContainer.innerHTML = html;
+        }
+
+        // PÁGINA DE TREINOS
+        function loadTreinosPage() {
+            const treinosContainer = document.getElementById('treinos-content');
+            let html = '';
+
+            Object.entries(workoutsData).forEach(([mesKey, mesData]) => {
+                html += `
+                    <div class="mb-5">
+                        <h2 class="text-center mb-4" style="color: var(--orange-primary);">
+                            📅 ${mesKey.replace('mes_', 'Mês ')} - ${mesData.nome}
+                        </h2>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 style="color: var(--green-accent);">🎯 Objetivo:</h5>
+                                <p>${mesData.objetivo}</p>
+                                <span class="badge-custom">
+                                    Semanas ${mesData.semanas[0]}-${mesData.semanas[mesData.semanas.length-1]}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                `;
+
+                Object.entries(mesData.treinos).forEach(([diaKey, treino]) => {
+                    html += `
+                        <div class="col-12 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-0">${diaKey.charAt(0).toUpperCase() + diaKey.slice(1)}</h6>
+                                            <small class="text-light">${treino.exercicios.length} exercícios</small>
+                                        </div>
+                                        <span class="badge bg-secondary">${treino.grupo_muscular}</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">${treino.nome}</h5>
+                                    
+                                    <div class="mb-3 d-none d-md-block">
+                                        <h6 style="color: var(--orange-primary);">💪 Exercícios:</h6>
+                                        ${treino.exercicios.slice(0, 2).map(ex => `
+                                            <div class="exercise-card">
+                                                <div class="d-flex justify-content-between">
+                                                    <span style="font-size: 0.9rem;">${ex.nome}</span>
+                                                    <small class="text-muted">${ex.series}x${ex.reps}</small>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                        ${treino.exercicios.length > 2 ? `<small class="text-muted">+ ${treino.exercicios.length - 2} exercícios...</small>` : ''}
+                                    </div>
+                                    
+                                    <!-- Versão mobile simplificada -->
+                                    <div class="mb-3 d-md-none">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">
+                                                <i class="bi bi-clock"></i> ~${treino.exercicios.length * 3}min
+                                            </small>
+                                            <small class="text-muted">
+                                                <i class="bi bi-list-check"></i> ${treino.exercicios.length} exercícios
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <button class="btn btn-outline-primary w-100" onclick="showTreinoDetalhes('${mesKey}', '${diaKey}')">
+                                                <i class="bi bi-eye"></i> <span class="d-none d-sm-inline">Ver </span>Detalhes
+                                            </button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button class="btn btn-primary w-100" onclick="startWorkout('${mesKey}', '${diaKey}')">
+                                                <i class="bi bi-play-fill"></i> <span class="d-none d-sm-inline">Iniciar </span>Treino
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            treinosContainer.innerHTML = html;
+        }
+
+        // VER DETALHES DO TREINO
+        function showTreinoDetalhes(mesKey, diaKey) {
+            const treino = workoutsData[mesKey].treinos[diaKey];
+            const mesNome = workoutsData[mesKey].nome;
+            
+            const treinosContainer = document.getElementById('treinos-content');
+            
+            treinosContainer.innerHTML = `
+                <div class="mb-3">
+                    <button class="btn btn-outline-primary" onclick="loadTreinosPage()">
+                        <i class="bi bi-arrow-left"></i> Voltar aos Treinos
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3>${treino.nome}</h3>
+                        <p class="mb-0">${diaKey.charAt(0).toUpperCase() + diaKey.slice(1)} - ${mesKey.replace('mes_', 'Mês ')} (${mesNome})</p>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card stats-card">
+                            <div class="card-body text-center">
+                                <i class="bi bi-bullseye muscle-group-icon"></i>
+                                <h5>Grupo Muscular</h5>
+                                <p class="text-muted">${treino.grupo_muscular}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card stats-card">
+                            <div class="card-body text-center">
+                                <i class="bi bi-list-check muscle-group-icon"></i>
+                                <h5>Total de Exercícios</h5>
+                                <p class="text-muted">${treino.exercicios.length} exercícios</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card stats-card">
+                            <div class="card-body text-center">
+                                <i class="bi bi-clock muscle-group-icon"></i>
+                                <h5>Tempo Estimado</h5>
+                                <p class="text-muted">~${treino.exercicios.length * 3}min</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>💪 Lista Completa de Exercícios</h4>
+                        </div>
+                        <div class="card-body">
+                            ${treino.exercicios.map((exercicio, index) => `
+                                <div class="exercise-card mb-3">
+                                    <!-- Mobile Layout -->
+                                    <div class="d-md-none">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div>
+                                                <div class="badge-custom d-inline-block mb-1">${index + 1}</div>
+                                                <h6 class="mb-1">${exercicio.nome}</h6>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="toggleExerciseDetails(${index})">
+                                                <i class="bi bi-info-circle" id="icon-${index}"></i>
+                                            </button>
+                                        </div>
+                                        <div class="d-flex justify-content-around text-center">
+                                            <div>
+                                                <small class="text-muted">Séries</small>
+                                                <div><strong>${exercicio.series}</strong></div>
+                                            </div>
+                                            <div>
+                                                <small class="text-muted">Reps</small>
+                                                <div><strong>${exercicio.reps}</strong></div>
+                                            </div>
+                                            <div>
+                                                <small class="text-muted">Descanso</small>
+                                                <div><strong>${exercicio.descanso}</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Desktop Layout -->
+                                    <div class="row align-items-center d-none d-md-flex">
+                                        <div class="col-md-1 text-center">
+                                            <div class="badge-custom">${index + 1}</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h6 class="mb-1">${exercicio.nome}</h6>
+                                        </div>
+                                        <div class="col-md-2 text-center">
+                                            <small class="text-muted">Séries</small>
+                                            <div><strong>${exercicio.series}</strong></div>
+                                        </div>
+                                        <div class="col-md-2 text-center">
+                                            <small class="text-muted">Reps</small>
+                                            <div><strong>${exercicio.reps}</strong></div>
+                                        </div>
+                                        <div class="col-md-2 text-center">
+                                            <small class="text-muted">Descanso</small>
+                                            <div><strong>${exercicio.descanso}</strong></div>
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="toggleExerciseDetails(${index})">
+                                                <i class="bi bi-info-circle" id="icon-${index}"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="details-${index}" class="exercise-details mt-3" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 mb-2 mb-md-0">
+                                                ${exercicio.observacao ? `
+                                                    <h6 style="color: var(--orange-primary);">📋 Observações:</h6>
+                                                    <p class="text-muted mb-2">${exercicio.observacao}</p>
+                                                ` : ''}
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                ${exercicio.dica ? `
+                                                    <h6 style="color: var(--green-accent);">💡 Dica de Execução:</h6>
+                                                    <p class="text-muted mb-0">${exercicio.dica}</p>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary btn-lg" onclick="startWorkout('${mesKey}', '${diaKey}')">
+                        <i class="bi bi-play-fill"></i> Iniciar Este Treino
+                    </button>
+                </div>
+            `;
+        }
+
+        // TOGGLE DETALHES DOS EXERCÍCIOS
+        function toggleExerciseDetails(index) {
+            const details = document.getElementById(`details-${index}`);
+            const icon = document.getElementById(`icon-${index}`);
+            
+            if (details.style.display === 'none') {
+                details.style.display = 'block';
+                icon.className = 'bi bi-x-circle';
+            } else {
+                details.style.display = 'none';
+                icon.className = 'bi bi-info-circle';
+            }
+        }
+
+        // PÁGINA DE GRUPOS MUSCULARES
+        function loadGruposPage() {
+            const gruposContainer = document.getElementById('grupos-content');
+            const grupos = {};
+
+            // Organizar treinos por grupo muscular
+            Object.entries(workoutsData).forEach(([mesKey, mesData]) => {
+                Object.entries(mesData.treinos).forEach(([diaKey, treino]) => {
+                    const grupo = treino.grupo_muscular;
+                    if (!grupos[grupo]) {
+                        grupos[grupo] = [];
+                    }
+                    grupos[grupo].push({
+                        dia: diaKey.charAt(0).toUpperCase() + diaKey.slice(1),
+                        nome: treino.nome,
+                        exercicios: treino.exercicios.length,
+                        mes: mesKey.replace('mes_', 'Mês ')
+                    });
+                });
+            });
+
+            let html = '';
+            Object.entries(grupos).forEach(([grupo, treinos]) => {
+                const icon = getGrupoIcon(grupo);
+                const visual = getGrupoVisual(grupo);
+                const beneficios = getGrupoBeneficios(grupo);
+
+                html += `
+                    <div class="mb-4">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <h4 class="mb-0">${icon} ${grupo}</h4>
+                            </div>
+                            <div class="card-body">
+                                <!-- Mobile: Layout simplificado -->
+                                <div class="d-lg-none">
+                                    <div class="mb-3">
+                                        <h6 style="color: var(--green-accent);">💎 Principais Benefícios:</h6>
+                                        <div class="row">
+                                            ${beneficios.slice(0, 2).map(beneficio => `
+                                                <div class="col-12 mb-1">
+                                                    <small class="text-muted">${beneficio}</small>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Desktop: Layout completo -->
+                                <div class="row mb-4 d-none d-lg-flex">
+                                    <div class="col-md-6">
+                                        <div class="card" style="background: rgba(255, 107, 53, 0.1);">
+                                            <div class="card-body">
+                                                <pre style="color: var(--text-light); font-size: 0.8rem;">${visual}</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 style="color: var(--green-accent);">💎 Benefícios:</h5>
+                                        <ul class="list-unstyled">
+                                            ${beneficios.map(beneficio => `<li>${beneficio}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <h6 style="color: var(--orange-primary);" class="mb-3">🏋️ Treinos deste Grupo:</h6>
+                                <div class="row">
+                                    ${treinos.map(treino => `
+                                        <div class="col-12 col-md-6 mb-2">
+                                            <div class="exercise-card">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <div class="d-flex justify-content-between align-items-start">
+                                                            <div>
+                                                                <h6 class="mb-0">${treino.dia}</h6>
+                                                                <small class="text-muted">${treino.mes}</small>
+                                                            </div>
+                                                            <span class="badge-custom">${treino.exercicios}</span>
+                                                        </div>
+                                                        <p class="mb-0 mt-1" style="font-size: 0.9rem;">
+                                                            ${treino.nome.length > 35 ? treino.nome.substring(0, 35) + '...' : treino.nome}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            gruposContainer.innerHTML = html;
+        }
+
+        // PÁGINA DE HISTÓRICO
+        function loadHistoricoPage() {
+            const historicoContainer = document.getElementById('historico-content');
+            
+            if (workoutHistory.length === 0) {
+                historicoContainer.innerHTML = `
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card text-center">
+                                <div class="card-body py-4">
+                                    <i class="bi bi-inbox" style="font-size: 3rem; color: var(--orange-primary);"></i>
+                                    <h4 class="mt-3">📭 Nenhum treino realizado</h4>
+                                    <p class="text-muted">Bora começar sua jornada, Gabriel!</p>
+                                    <button class="btn btn-primary btn-lg mt-3" onclick="showPage('treinos')">
+                                        <i class="bi bi-play-fill"></i> Fazer Primeiro Treino
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="row">';
+            
+            workoutHistory.slice(-10).reverse().forEach(session => {
+                html += `
+                    <div class="col-12 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Mobile: Layout empilhado -->
+                                <div class="d-md-none">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">
+                                                ${session.workout_name.length > 25 ? session.workout_name.substring(0, 25) + '...' : session.workout_name}
+                                            </h6>
+                                            <small class="text-muted">
+                                                <i class="bi bi-calendar"></i> ${session.date.split(' ')[0]}
+                                            </small>
+                                        </div>
+                                        <span class="badge-custom">${Math.round(session.completion_rate)}%</span>
+                                    </div>
+                                    
+                                    <div class="mb-2">
+                                        <small class="text-muted">${session.muscle_group}</small>
+                                    </div>
+                                    
+                                    <div class="row text-center">
+                                        <div class="col-3">
+                                            <div style="font-size: 0.9rem;"><strong>${session.duration_minutes}min</strong></div>
+                                            <small class="text-muted">Duração</small>
+                                        </div>
+                                        <div class="col-3">
+                                            <div style="font-size: 0.9rem;"><strong>${Math.round(session.completion_rate)}%</strong></div>
+                                            <small class="text-muted">Conclusão</small>
+                                        </div>
+                                        <div class="col-3">
+                                            <div style="font-size: 0.9rem;"><strong>~${session.duration_minutes * 8}</strong></div>
+                                            <small class="text-muted">Calorias</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Desktop: Layout lado a lado -->
+                                <div class="d-none d-md-block">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title">
+                                            ${session.workout_name.length > 40 ? session.workout_name.substring(0, 40) + '...' : session.workout_name}
+                                        </h5>
+                                        <span class="badge-custom">${Math.round(session.completion_rate)}%</span>
+                                    </div>
+                                    
+                                    <p class="text-muted mb-2">
+                                        <i class="bi bi-calendar"></i> ${session.date}
+                                    </p>
+                                    <p class="text-muted mb-2">
+                                        <i class="bi bi-bullseye"></i> ${session.muscle_group}
+                                    </p>
+                                    
+                                    <div class="row text-center mt-3">
+                                        <div class="col-3">
+                                            <small class="text-muted">Exercícios</small>
+                                            <div><strong>${session.exercises_completed}/${session.total_exercises}</strong></div>
+                                        </div>
+                                        <div class="col-3">
+                                            <small class="text-muted">Duração</small>
+                                            <div><strong>${session.duration_minutes}min</strong></div>
+                                        </div>
+                                        <div class="col-3">
+                                            <small class="text-muted">Conclusão</small>
+                                            <div><strong>${Math.round(session.completion_rate)}%</strong></div>
+                                        </div>
+                                        <div class="col-3">
+                                            <small class="text-muted">Calorias</small>
+                                            <div><strong>~${session.duration_minutes * 8}</strong></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="progress-custom progress mt-3">
+                                    <div class="progress-bar" style="width: ${session.completion_rate}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            historicoContainer.innerHTML = html;
+        }
+
+        // PÁGINA DE ESTATÍSTICAS
+        function loadEstatisticasPage() {
+            const estatisticasContainer = document.getElementById('estatisticas-content');
+            
+            if (workoutHistory.length === 0) {
+                estatisticasContainer.innerHTML = `
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card text-center">
+                                <div class="card-body py-4">
+                                    <i class="bi bi-bar-chart" style="font-size: 3rem; color: var(--orange-primary);"></i>
+                                    <h4 class="mt-3">📊 Ainda não há estatísticas</h4>
+                                    <p class="text-muted">Faça seu primeiro treino para ver suas stats!</p>
+                                    <button class="btn btn-primary btn-lg mt-3" onclick="showPage('treinos')">
+                                        <i class="bi bi-play-fill"></i> Começar Agora
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Calcular estatísticas
+            const totalTreinos = workoutHistory.length;
+            const totalExercicios = workoutHistory.reduce((sum, s) => sum + s.exercises_completed, 0);
+            const tempoTotal = workoutHistory.reduce((sum, s) => sum + s.duration_minutes, 0);
+            const taxaMedia = workoutHistory.reduce((sum, s) => sum + s.completion_rate, 0) / totalTreinos;
+            const calorias = tempoTotal * 8;
+            const tempoMedio = Math.round(tempoTotal / totalTreinos);
+
+            estatisticasContainer.innerHTML = `
+                <!-- Stats Cards: Mobile-first grid -->
+                <div class="row mb-4">
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="card stats-card h-100">
+                            <div class="card-body text-center p-3">
+                                <i class="bi bi-trophy" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                                <h4 class="mt-1 mb-0">${totalTreinos}</h4>
+                                <small class="text-muted">Treinos</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="card stats-card h-100">
+                            <div class="card-body text-center p-3">
+                                <i class="bi bi-lightning-fill" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                                <h4 class="mt-1 mb-0">${totalExercicios}</h4>
+                                <small class="text-muted">Exercícios</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="card stats-card h-100">
+                            <div class="card-body text-center p-3">
+                                <i class="bi bi-clock" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                                <h4 class="mt-1 mb-0">${Math.floor(tempoTotal/60)}h</h4>
+                                <small class="text-muted">Tempo Total</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 mb-3">
+                        <div class="card stats-card h-100">
+                            <div class="card-body text-center p-3">
+                                <i class="bi bi-fire" style="font-size: 1.8rem; color: var(--orange-primary);"></i>
+                                <h4 class="mt-1 mb-0">${Math.round(calorias/1000)}k</h4>
+                                <small class="text-muted">Calorias</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Stats -->
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <h6>🎯 Taxa de Conclusão</h6>
+                            </div>
+                            <div class="card-body text-center">
+                                <div style="font-size: 2.5rem; color: var(--green-accent); font-weight: bold;">
+                                    ${Math.round(taxaMedia)}%
+                                </div>
+                                <div class="progress-custom progress mt-3">
+                                    <div class="progress-bar" style="width: ${taxaMedia}%"></div>
+                                </div>
+                                <small class="text-muted mt-2">Média geral</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <h6>⏱️ Tempo Médio</h6>
+                            </div>
+                            <div class="card-body text-center">
+                                <div style="font-size: 2.5rem; color: var(--orange-primary); font-weight: bold;">
+                                    ${tempoMedio}min
+                                </div>
+                                <small class="text-muted">Por treino</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Motivational Card -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body text-center py-4">
+                                <h4 style="color: var(--green-accent);">🏆 Parabéns, Gabriel!</h4>
+                                <p class="text-muted mb-3">
+                                    Você já queimou <strong>${calorias} calorias</strong> em <strong>${totalTreinos} treinos</strong>!
+                                </p>
+                                
+                                <!-- Mobile: Texto reduzido -->
+                                <div class="d-md-none">
+                                    <p class="text-muted mb-3">Continue assim! 💪</p>
+                                </div>
+                                
+                                <!-- Desktop: Texto completo -->
+                                <div class="d-none d-md-block">
+                                    <p class="text-muted mb-3">Continue assim e você vai conquistar todos seus objetivos! 💪</p>
+                                </div>
+                                
+                                <button class="btn btn-primary btn-lg" onclick="showPage('treinos')">
+                                    <i class="bi bi-play-fill"></i> <span class="d-none d-sm-inline">Fazer </span>Próximo Treino
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // EXECUTAR TREINO
+        function startWorkout(mesKey, diaKey) {
+            currentWorkout = {
+                mes: mesKey,
+                dia: diaKey,
+                treino: workoutsData[mesKey].treinos[diaKey],
+                exercicios: workoutsData[mesKey].treinos[diaKey].exercicios,
+                exercicioAtual: 0,
+                startTime: new Date()
+            };
+
+            workoutStartTime = new Date();
+            currentExerciseIndex = 0;
+
+            // Configurar página de execução
+            document.getElementById('treino-nome').textContent = `🔥 ${currentWorkout.treino.nome}`;
+            document.getElementById('treino-grupo').textContent = currentWorkout.treino.grupo_muscular;
+
+            // Mostrar exercícios
+            showCurrentExercise();
+            
+            // Ir para página de execução
+            showPage('executar-treino');
+        }
+
+        function showCurrentExercise() {
+            const container = document.getElementById('exercises-container');
+            const exercicios = currentWorkout.exercicios;
+            const totalExercicios = exercicios.length;
+
+            if (currentExerciseIndex >= totalExercicios) {
+                finalizarTreino();
+                return;
+            }
+
+            const exercicio = exercicios[currentExerciseIndex];
+
+            // Atualizar progresso
+            const progresso = (currentExerciseIndex / totalExercicios) * 100;
+            document.getElementById('progress-bar').style.width = progresso + '%';
+            document.getElementById('progress-text').textContent = Math.round(progresso) + '%';
+            document.getElementById('exercise-counter').textContent = 
+                `Exercício ${currentExerciseIndex + 1} de ${totalExercicios}`;
+
+            // Mostrar exercício atual
+            container.innerHTML = `
+                <div class="card exercise-item">
+                    <div class="card-header text-center">
+                        <h4>🏋️ ${exercicio.nome}</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Mobile: Layout empilhado -->
+                        <div class="row d-md-none">
+                            <div class="col-12 mb-3">
+                                <div class="text-center">
+                                    <div class="d-flex justify-content-around">
+                                        <div>
+                                            <small class="text-muted">Séries</small>
+                                            <div class="h5 text-primary">${exercicio.series}</div>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted">Reps</small>
+                                            <div class="h5 text-primary">${exercicio.reps}</div>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted">Descanso</small>
+                                            <div class="h5 text-primary">${exercicio.descanso}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                ${exercicio.observacao ? `
+                                    <div class="mt-3 p-2" style="background: rgba(255, 107, 53, 0.1); border-radius: 8px;">
+                                        <small class="text-muted">📋 Observação:</small>
+                                        <div style="font-size: 0.9rem;">${exercicio.observacao}</div>
+                                    </div>
+                                ` : ''}
+                                ${exercicio.dica ? `
+                                    <div class="mt-2 p-2" style="background: rgba(78, 205, 196, 0.1); border-radius: 8px;">
+                                        <small class="text-muted">💡 Dica:</small>
+                                        <div style="font-size: 0.9rem;">${exercicio.dica}</div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Desktop: Layout lado a lado -->
+                        <div class="row d-none d-md-flex">
+                            <div class="col-md-6">
+                                <h6 style="color: var(--orange-primary);">📊 Especificações:</h6>
+                                <ul class="list-unstyled">
+                                    <li><strong>Séries:</strong> ${exercicio.series}</li>
+                                    <li><strong>Repetições:</strong> ${exercicio.reps}</li>
+                                    <li><strong>Descanso:</strong> ${exercicio.descanso}</li>
+                                    ${exercicio.observacao ? `<li><strong>Obs:</strong> ${exercicio.observacao}</li>` : ''}
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                ${exercicio.dica ? `
+                                    <h6 style="color: var(--green-accent);">💡 Dica de Execução:</h6>
+                                    <p class="text-muted">${exercicio.dica}</p>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Input de peso e botão - responsivo -->
+                        <div class="row mt-3 align-items-end">
+                            <div class="col-12 col-md-6 mb-3 mb-md-0">
+                                <label for="peso-atual" class="form-label">💪 Peso Usado (kg):</label>
+                                <input type="number" class="form-control form-control-lg" id="peso-atual" 
+                                       placeholder="0" step="0.5" min="0" inputmode="decimal">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <button class="btn btn-success btn-lg w-100" onclick="concluirExercicio()">
+                                    <i class="bi bi-check-lg"></i> 
+                                    <span>Exercício Concluído</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Botão de navegação mobile -->
+                        <div class="row mt-3 d-md-none">
+                            <div class="col-6">
+                                ${currentExerciseIndex > 0 ? `
+                                    <button class="btn btn-outline-secondary w-100" onclick="voltarExercicio()">
+                                        <i class="bi bi-arrow-left"></i> Anterior
+                                    </button>
+                                ` : ''}
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-outline-primary w-100" onclick="pularExercicio()">
+                                    Pular <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function concluirExercicio() {
+            const peso = document.getElementById('peso-atual').value || 0;
+
+            // Mostrar mensagem motivacional
+            mostrarMensagemMotivacional();
+
+            // Avançar para próximo exercício
+            currentExerciseIndex++;
+            
+            // Pequeno delay para mostrar a mensagem
+            setTimeout(() => {
+                showCurrentExercise();
+            }, 1500);
+        }
+
+        function voltarExercicio() {
+            if (currentExerciseIndex > 0) {
+                currentExerciseIndex--;
+                showCurrentExercise();
+            }
+        }
+
+        function pularExercicio() {
+            currentExerciseIndex++;
+            showCurrentExercise();
+        }
+
+        function finalizarTreino() {
+            const endTime = new Date();
+            const duration = Math.round((endTime - workoutStartTime) / (1000 * 60)); // em minutos
+            const exerciciosCompletados = currentExerciseIndex;
+            const totalExercicios = currentWorkout.exercicios.length;
+            const completionRate = (exerciciosCompletados / totalExercicios) * 100;
+
+            // Salvar no histórico
+            const sessionData = {
+                date: workoutStartTime.toLocaleDateString('pt-BR') + ' ' + workoutStartTime.toLocaleTimeString('pt-BR'),
+                workout_name: currentWorkout.treino.nome,
+                muscle_group: currentWorkout.treino.grupo_muscular,
+                exercises_completed: exerciciosCompletados,
+                total_exercises: totalExercicios,
+                duration_minutes: duration,
+                completion_rate: completionRate
+            };
+
+            workoutHistory.push(sessionData);
+            saveToStorage('history', workoutHistory);
+
+            // Mostrar resumo
+            document.getElementById('resumo-treino').innerHTML = `
+                <div class="row">
+                    <div class="col-md-3 col-6">
+                        <div class="card stats-card">
+                            <div class="card-body text-center">
+                                <h5>${exerciciosCompletados}/${totalExercicios}</h5>
+                                <small>Exercícios</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="card stats-card">
+                            <div class="card-body text-center">
+                                <h5>${duration}min</h5>
+                                <small>Duração</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="card stats-card">
+                            <div class="card-body text-center">
+                                <h5>${Math.round(completionRate)}%</h5>
+                                <small>Conclusão</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="card stats-card">
+                            <div class="card-body text-center">
+                                <h5>~${duration * 8}</h5>
+                                <small>Calorias</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Esconder container de exercícios e mostrar card final
+            document.getElementById('exercises-container').style.display = 'none';
+            document.getElementById('final-card').style.display = 'block';
+            document.getElementById('progress-bar').style.width = '100%';
+            document.getElementById('progress-text').textContent = '100%';
+        }
+
+        function mostrarMensagemMotivacional() {
+            const frases = [
+                "🔥 Boa, Gabriel! Próximo exercício!",
+                "💪 Você está mandando bem!",
+                "⚡ Continue com essa energia!",
+                "🎯 Foco e força no próximo!",
+                "🚀 Arrasando no treino!"
+            ];
+
+            const frase = frases[Math.floor(Math.random() * frases.length)];
+
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `
+                <div><strong>💪 Gabriel</strong></div>
+                <div>${frase}</div>
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // FUNÇÕES AUXILIARES PARA GRUPOS MUSCULARES
+        function getGrupoIcon(grupo) {
+            const icons = {
+                "Pernas e Glúteos": "🦵",
+                "Peito, Costas e Ombros": "💪",
+                "Core e Mobilidade": "🎯",
+                "Cardio e Condicionamento": "❤️",
+                "Pernas e Potência": "⚡",
+                "Esporte": "⚽"
+            };
+            return icons[grupo] || "🏋️";
+        }
+
+        function getGrupoVisual(grupo) {
+            const visuals = {
+                "Pernas e Glúteos": `    🦵 PERNAS E GLÚTEOS 🦵
+    
+    ┌─────────────────┐
+    │     GLÚTEOS     │ 🍑
+    └─────────────────┘
+           │
+    ┌─────────────────┐
+    │   QUADRÍCEPS    │ 💪
+    │   (Frente)      │
+    └─────────────────┘
+    ┌─────────────────┐
+    │   POSTERIOR     │ 🔥
+    │   (Atrás)       │
+    └─────────────────┘
+           │
+    ┌─────────────────┐
+    │  PANTURRILHAS   │ ⚡
+    └─────────────────┘`,
+                "Peito, Costas e Ombros": `    💪 SUPERIORES 💪
+    
+    ┌─────────────────┐
+    │     OMBROS      │ 🔺
+    │   (Deltoides)   │
+    └─────────────────┘
+    ┌─────────────────┐
+    │     PEITO       │ 💪
+    │   (Peitoral)    │
+    └─────────────────┘
+    ┌─────────────────┐
+    │     COSTAS      │ 🦅
+    │   (Dorsais)     │
+    └─────────────────┘`
+            };
+            return visuals[grupo] || "🏋️ GRUPO MUSCULAR";
+        }
+
+        function getGrupoBeneficios(grupo) {
+            const beneficios = {
+                "Pernas e Glúteos": [
+                    "🏃 Melhora velocidade e agilidade",
+                    "⚡ Aumenta potência para saltos",
+                    "🛡️ Protege joelhos e quadril",
+                    "🔥 Queima muitas calorias"
+                ],
+                "Peito, Costas e Ombros": [
+                    "💪 Desenvolve força funcional",
+                    "🏋️ Melhora postura corporal",
+                    "⚡ Aumenta potência nos braços",
+                    "🛡️ Protege coluna vertebral"
+                ],
+                "Core e Mobilidade": [
+                    "🎯 Melhora equilíbrio e coordenação",
+                    "🛡️ Protege a coluna vertebral",
+                    "⚡ Aumenta estabilidade nos movimentos",
+                    "🧘 Melhora flexibilidade geral"
+                ],
+                "Cardio e Condicionamento": [
+                    "❤️ Fortalece sistema cardiovascular",
+                    "🔥 Queima gordura corporal",
+                    "⚡ Melhora agilidade e reflexos",
+                    "🧠 Aumenta resistência mental"
+                ],
+                "Pernas e Potência": [
+                    "⚡ Desenvolve potência explosiva",
+                    "🚀 Melhora velocidade de movimento",
+                    "💥 Aumenta força dinâmica",
+                    "🏃 Transfere para esportes"
+                ],
+                "Esporte": [
+                    "⚽ Melhora performance no futebol",
+                    "🔄 Integra todos sistemas musculares",
+                    "🏆 Desenvolve habilidades específicas",
+                    "🧠 Treina tomada de decisão"
+                ]
+            };
+            return beneficios[grupo] || ["💪 Desenvolve força e resistência"];
+        }
+
+        // INICIALIZAR APLICAÇÃO
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+        });
+    </script>
+</body>
+</html>
