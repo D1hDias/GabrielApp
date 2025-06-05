@@ -22,6 +22,36 @@ class WorkoutWebManager:
         self.media_links = self.load_media_links()
         self.workouts = self.load_workouts()
         self.history = self.load_history()
+
+    def load_media_links(self):
+        """Carrega links de mídia (imagens, vídeos) para exercícios"""
+        media_file = "gabriel_media_links.json"
+        
+        if not os.path.exists(media_file):
+            exemplo_media = {
+                "exercicios": {},
+                "grupos_musculares": {}
+            }
+            
+            with open(media_file, 'w', encoding='utf-8') as f:
+                json.dump(exemplo_media, f, ensure_ascii=False, indent=2)
+            
+            return exemplo_media
+        
+        try:
+            with open(media_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return {"exercicios": {}, "grupos_musculares": {}}
+
+    def get_exercise_media(self, exercise_name):
+        """Retorna mídia específica de um exercício"""
+        normalized_name = exercise_name.lower().replace(" ", "_")
+        
+        if "exercicios" in self.media_links and normalized_name in self.media_links["exercicios"]:
+            return self.media_links["exercicios"][normalized_name]
+        
+        return {"video": "", "imagem": "", "gif": ""}    
     
     def load_workouts(self):
         """Carrega os treinos do arquivo JSON"""
