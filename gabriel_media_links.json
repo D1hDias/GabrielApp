@@ -1,4 +1,84 @@
 {
-  "exercicios": {},
-  "grupos_musculares": {}
+  "exercicios": {
+    "agachamento_livre": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Barbell-barbell-squat-side.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "supino_reto_com_barra": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-barbell-bench-press-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "levantamento_terra_trap_bar": {
+      "video": "https://youtu.be/gcWLrbt-dFU?si=gyrEJpHORIlpwr2c&t=10",
+      "imagem": "",
+      "gif": ""
+    },
+    "leg_press": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Machine-machine-horizontal-leg-press-side.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "cadeira_extensora_unilateral": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-machine-leg-extension-side.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "panturrilha_em_pe": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-machine-standing-calf-raises-side.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "puxada_frontal": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-machine-pulldown-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "desenvolvimento_com_halteres": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-seated-overhead-press-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "remada_unilateral": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-kneeling-single-arm-row-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "prancha_abdominal": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-bodyweight-forearm-plank-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "box_jump": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-box-jump-side.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "afundo_com_halteres": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-alternating-forward-lunge-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "cadeira_flexora": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Machine-machine-seated-leg-curl-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "gemeos_sentado": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-machine-seated-calf-raise-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    }
+  },
+  "grupos_musculares": {
+    "pernas": {
+      "anatomia": "https://drthiagoprotta.com.br/wp-content/uploads/2024/11/quadriceps-978x1024.jpg",
+      "icone": "🦵"
+    },
+    "peito": {
+      "anatomia": "https://anatomia-papel-e-caneta.com/wp-content/uploads/2019/06/MMSS-13-1024x666.jpg", 
+      "icone": "💪"
+    }
+  }
 }
