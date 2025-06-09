@@ -61,39 +61,86 @@
                             {% endif %}
                         </div>
                     </div>
+                    
+                    <!-- SEÇÃO DE DICA E MÍDIA ATUALIZADA -->
                     {% if exercicio.dica %}
                     <div class="mt-3 p-3" style="background: rgba(78, 205, 196, 0.1); border-radius: 10px; border-left: 4px solid var(--green-accent);">
                         <h6 style="color: var(--green-accent); margin-bottom: 8px;">💡 Dica:</h6>
                         <p class="mb-0" style="color: var(--text-light); line-height: 1.5;">{{ exercicio.dica }}</p>
+                        
+                        <!-- NOVA SEÇÃO DE MÍDIA -->
+                        {% set media = workout_manager.get_exercise_media(exercicio.nome) %}
+                        {% if media.video or media.imagem or media.gif %}
+                        <div class="mt-3">
+                            <h6 style="color: var(--orange-primary); font-size: 0.9rem;">🎥 Demonstração:</h6>
+                            <div class="d-flex gap-2 flex-wrap">
+                                {% if media.video %}
+                                <a href="{{ media.video }}" target="_blank" class="btn btn-video-demo">
+                                    <i class="bi bi-play-circle"></i> Ver Vídeo
+                                </a>
+                                {% endif %}
+                                
+                                {% if media.imagem %}
+                                <a href="{{ media.imagem }}" target="_blank" class="btn btn-image-demo">
+                                    <i class="bi bi-image"></i> Ver Imagem
+                                </a>
+                                {% endif %}
+                                
+                                {% if media.gif %}
+                                <a href="{{ media.gif }}" target="_blank" class="btn btn-gif-demo">
+                                    <i class="bi bi-film"></i> Ver GIF
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% else %}
+                        <!-- Se não tiver mídia, mostra mensagem -->
+                        <div class="mt-3 text-center">
+                            <small style="color: var(--text-muted);">📱 Demonstração em breve</small>
+                        </div>
+                        {% endif %}
                     </div>
                     {% endif %}
-                    <div class="mt-3 text-center">
-                        <button class="btn btn-outline-mobile" onclick="verMidia('{{ exercicio.nome }}')" style="border-color: #6f42c1; color: #6f42c1;">
-                            <i class="bi bi-play-circle me-2"></i>Ver Demonstração
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
-{% endblock %}
 
-<script>
-function verMidia(exerciseName) {
-    fetch(`/api/obter-midia/${encodeURIComponent(exerciseName)}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success && (data.media.video || data.media.imagem)) {
-                let content = `<h6>${exerciseName}</h6>`;
-                if (data.media.video) content += `<p><a href="${data.media.video}" target="_blank">🎥 Ver Vídeo</a></p>`;
-                if (data.media.imagem) content += `<p><img src="${data.media.imagem}" style="max-width:100%"></p>`;
-                if (data.media.descricao) content += `<p>${data.media.descricao}</p>`;
-                alert(content); // Substitua por modal se quiser
-            } else {
-                alert('Nenhuma mídia cadastrada para este exercício');
-            }
-        });
+<style>
+/* Estilos para os botões de mídia */
+.btn-video-demo, .btn-image-demo, .btn-gif-demo {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--orange-primary);
+    color: var(--orange-primary);
+    background: rgba(255, 107, 53, 0.05);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
-</script>
+
+.btn-video-demo:hover, .btn-image-demo:hover, .btn-gif-demo:hover {
+    background: var(--orange-primary);
+    color: white;
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.btn-video-demo {
+    border-color: var(--green-accent);
+    color: var(--green-accent);
+    background: rgba(78, 205, 196, 0.05);
+}
+
+.btn-video-demo:hover {
+    background: var(--green-accent);
+    color: white;
+}
+</style>
+{% endblock %}
