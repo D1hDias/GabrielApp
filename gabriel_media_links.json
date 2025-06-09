@@ -1,12 +1,8 @@
 {
   "exercicios": {
+    "_COMENTARIO_MES_1": "=== MÊS 1: FUNDAÇÃO FUNCIONAL ===",
     "agachamento_livre": {
       "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Barbell-barbell-squat-side.mp4#t=0.1",
-      "imagem": "",
-      "gif": ""
-    },
-    "supino_reto_com_barra": {
-      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-barbell-bench-press-front.mp4#t=0.1",
       "imagem": "",
       "gif": ""
     },
@@ -25,7 +21,12 @@
       "imagem": "",
       "gif": ""
     },
-    "panturrilha_em_pé": {
+    "supino_reto_com_barra": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-barbell-bench-press-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },    
+    "panturrilha_em_pe": {
       "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-machine-standing-calf-raises-side.mp4#t=0.1",
       "imagem": "",
       "gif": ""
@@ -50,6 +51,41 @@
       "imagem": "",
       "gif": ""
     },
+    "circuito_de_cones": {
+      "video": "https://youtu.be/3YYgnFP5upw?si=4mp14xsVqnEy4_9d&t=56",
+      "imagem": "",
+      "gif": ""
+    },
+    "tiros_de_30m": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "bike_ergometrica_z2": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "prancha_lateral_com_elevacao": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-bodyweight-hand-side-plank-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "glute_bridge_unilateral": {
+      "video": "https://youtu.be/3AzzAOo_rEg?si=x9yQyWdcw70rG6op&t=5",
+      "imagem": "",
+      "gif": ""
+    },
+    "mobilidade_de_quadril/tornozelo": {
+      "video": "https://youtu.be/CQ5UcyQ5DhE?si=VNj3h-zDhj9Z0pxb&t=4",
+      "imagem": "",
+      "gif": ""
+    },
+    "alongamento_dinamico": {
+      "video": "https://youtu.be/DuhECs0LSQc?si=wlleawrcyh7gkRnD&t=45",
+      "imagem": "",
+      "gif": ""
+    },
     "box_jump": {
       "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Bodyweight-box-jump-side.mp4#t=0.1",
       "imagem": "",
@@ -69,8 +105,364 @@
       "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-machine-seated-calf-raise-front.mp4#t=0.1",
       "imagem": "",
       "gif": ""
+    },
+    "futebol_-_jogo_completo": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+
+    "_COMENTARIO_MES_2": "=== MÊS 2: FORÇA FUNCIONAL E CONTROLE ===",
+    "agachamento_bulgaro": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-bulgarian-split-squat-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "levantamento_terra_romeno_com_halteres": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-Dumbbells-dumbbell-romanian-deadlift-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "avanco_na_barra_guiada": {
+      "video": "https://youtu.be/RNU1CNlGAGs?si=c31Az2uOcgjI5WM5&t=41",
+      "imagem": "",
+      "gif": ""
+    },
+    "elevacao_de_gemeos_unilateral": {
+      "video": "https://www.youtube.com/watch?v=JfPlspMElZM",
+      "imagem": "",
+      "gif": ""
+    },
+    "supino_inclinado_com_halteres": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-dumbbell-incline-bench-press-front_q2q0T12.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "remada_curvada": {
+      "video": "https://media.musclewiki.com/media/uploads/videos/branded/male-barbell-bent-over-row-front.mp4#t=0.1",
+      "imagem": "",
+      "gif": ""
+    },
+    "elevacao_lateral_+_desenvolvimento_(combo)": {
+      "video": "https://www.youtube.com/shorts/ot9nwSC1JnA?feature=share",
+      "imagem": "https://www.youtube.com/shorts/Gy6LpKErBT8?feature=share",
+      "gif": ""
+    },
+    "puxada_na_polia_inversa": {
+      "video": "https://www.youtube.com/shorts/b5RkrNs_EGM?feature=share",
+      "imagem": "",
+      "gif": ""
+    },
+    "prancha_com_remada_(renegade_row)": {
+      "video": "https://youtu.be/LccyTxiUrhg",
+      "imagem": "",
+      "gif": ""
+    },
+    "corridas_curtas_com_mudanca_de_direcao": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "circuito_em_escada_de_agilidade": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "hit_na_esteira_ou_bike": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "prancha_frontal_com_toque_de_ombros": {
+      "video": "https://www.youtube.com/shorts/aeHEs-ukGhk?feature=share",
+      "imagem": "",
+      "gif": ""
+    },
+    "dead_bug": {
+      "video": "https://youtu.be/jbWmbhElf3Q",
+      "imagem": "",
+      "gif": ""
+    },
+    "mobilidade_de_ombro_e_quadril": {
+      "video": "https://youtu.be/m53pldovW1I",
+      "imagem": "",
+      "gif": ""
+    },
+    "liberacao_miofascial": {
+      "video": "https://www.youtube.com/shorts/e-EhpcDGI4A?feature=share",
+      "imagem": "",
+      "gif": ""
+    },
+    "salto_unilateral_alternado": {
+      "video": "https://youtu.be/0Qbm943jXPA",
+      "imagem": "",
+      "gif": ""
+    },
+    "afundo_com_pausa_(3s_excentrico)": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "mesa_flexora": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "elevacao_de_panturrilhas_com_halteres": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "futebol_-_treino_tecnico": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+
+    "_COMENTARIO_MES_3": "=== MÊS 3: POTÊNCIA E TRANSFERÊNCIA ESPORTIVA ===",
+    "saltos_verticais_com_peso": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "agachamento_frontal": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "passada_com_salto": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "gemeos_explosivo_em_pe": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "supino_com_explosao_(speed_bench)": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "pull-up_com_impulso": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "arremesso_de_bola_medicinal": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "core_dinamico_(cable_rotation)": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "alongamentos_ativos": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "alongamentos_estaticos": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "agachamento_+_salto_(complexo)": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "terra_+_sprint_curto": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "supino_+_flexao_explosiva": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "prancha_com_instabilidade": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "sprint_10-20-30m": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "zig-zag_em_cones": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "bike_hiit": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+
+    "_COMENTARIO_MES_4": "=== MÊS 4: HIPERTROFIA FUNCIONAL CONTROLADA ===",
+    "agachamento_com_halteres": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "cadeira_flexora_unilateral": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "leg_press_com_pausa": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "panturrilha_no_leg": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "supino_com_halteres": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "puxada_com_pegada_neutra": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "desenvolvimento": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "remada_maquina": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "prancha_com_peso": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+
+    "_COMENTARIO_MES_5": "=== MÊS 5: INTEGRAÇÃO E POTENCIALIZAÇÃO ATLÉTICA ===",
+    "trap_bar_jump": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "afundo_explosivo": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "panturrilha_em_unilateral": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "supino_rapido": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "puxada_alternada": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "remada_alta": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "prancha_com_bola_bosu": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "russian_twist": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "skater_squats": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "mobilidade_de_quadril": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+
+    "_COMENTARIO_MES_6": "=== MÊS 6: POLIMENTO FINAL E OTIMIZAÇÃO FUNCIONAL ===",
+    "agachamento": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "supino": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "terra": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "core_com_peso": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "saltos_curtos": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "arranque_com_bola_medicinal": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "sprint_com_foco_tecnico": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "mobilidade_e_alongamento": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "alongamento_passivo": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "exercicios_respiratorios": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
+    },
+    "futebol_-_performance_maxima": {
+      "video": "",
+      "imagem": "",
+      "gif": ""
     }
   },
+
   "grupos_musculares": {
     "pernas": {
       "anatomia": "https://drthiagoprotta.com.br/wp-content/uploads/2024/11/quadriceps-978x1024.jpg",
@@ -79,6 +471,22 @@
     "peito": {
       "anatomia": "https://anatomia-papel-e-caneta.com/wp-content/uploads/2019/06/MMSS-13-1024x666.jpg", 
       "icone": "💪"
+    },
+    "core": {
+      "anatomia": "",
+      "icone": "🎯"
+    },
+    "cardio": {
+      "anatomia": "",
+      "icone": "❤️"
+    },
+    "costas": {
+      "anatomia": "",
+      "icone": "🦅"
+    },
+    "ombros": {
+      "anatomia": "",
+      "icone": "🔺"
     }
   }
 }

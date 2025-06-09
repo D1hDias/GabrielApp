@@ -113,7 +113,7 @@ class WorkoutWebManager:
                         "exercicios": [
                             {"nome": "Circuito de cones", "series": 3, "reps": "1 volta", "descanso": "60s", "dica": "Troque direção rapidamente"},
                             {"nome": "Tiros de 30m", "series": 6, "reps": "1 tiro", "descanso": "incompleto", "dica": "Máxima velocidade"},
-                            {"nome": "Bike ergométrica Z2", "series": 1, "reps": "20 min", "descanso": "0s", "dica": "Zona 2: ritmo moderado"}
+                            {"nome": "Bike ergométrica Z2", "series": 1, "reps": "20 min", "descanso": "0s", "dica": "Zona 2: O treino Z2 refere-se a exercícios em um ritmo em que seu corpo utiliza principalmente gordura como fonte de combustível, em vez de carboidratos. Essa zona normalmente representa 60-70% da sua frequência cardíaca máxima e é crucial para construir uma base aeróbica forte. Portanto, se sua frequência cardíaca máxima for de 200 bpm, você deve treinar entre 120-140 bpm."}
                         ]
                     },
                     "quinta": {
