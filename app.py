@@ -497,11 +497,7 @@ def estatisticas():
 def treino_detalhes(mes, dia):
     """Página de detalhes do treino mobile"""
     treino = workout_manager.workouts[mes]["treinos"][dia]
-    return render_template('treino_detalhes.html', 
-                         treino=treino, 
-                         mes=mes, 
-                         dia=dia,
-                         workout_manager=workout_manager)
+    return render_template('treino_detalhes.html', treino=treino, mes=mes, dia=dia)
 
 @app.route('/executar-treino/<mes>/<dia>')
 def executar_treino(mes, dia):
@@ -607,20 +603,8 @@ def finalizar_treino():
     
 @app.route('/api/obter-midia/<exercise_name>')
 def obter_midia(exercise_name):
-    """API para obter mídia de um exercício"""
-    try:
-        media = workout_manager.get_exercise_media(exercise_name)
-        return jsonify({
-            'success': True, 
-            'media': media,
-            'exercise_name': exercise_name
-        })
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e),
-            'media': {"video": "", "imagem": "", "gif": ""}
-        })
+    media = workout_manager.media_links.get(exercise_name, {})
+    return jsonify({'success': True, 'media': media})
 
 @app.route('/api/salvar-midia', methods=['POST'])
 def salvar_midia():
